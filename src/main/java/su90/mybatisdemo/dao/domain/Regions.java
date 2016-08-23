@@ -12,42 +12,41 @@ import java.io.Serializable;
  * @author superman90
  */
 public class Regions implements Serializable{
-    Long region_id;
-    String region_name;
-    
+    Long id;
+    String name;
+
     public Regions(){
     }
 
     public Regions(Long region_id, String region_name) {
-        this.region_id = region_id;
-        this.region_name = region_name;
+        this.id = region_id;
+        this.name = region_name;
     }
     
-
-    public Long getRegion_id() {
-        return region_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setRegion_id(Long region_id) {
-        this.region_id = region_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getRegion_name() {
-        return region_name;
+    public String getName() {
+        return name;
     }
 
-    public void setRegion_name(String region_name) {
-        this.region_name = region_name;
+    public void setName(String name) {
+        this.name = name;
     }
-
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();        
             sb.append('{');
             sb.append("region_id:");
-            sb.append(region_id);
+            sb.append(id);
             sb.append("region_name");
-            sb.append(region_name);
+            sb.append(name);
             sb.append('}');        
         return sb.toString();
     }

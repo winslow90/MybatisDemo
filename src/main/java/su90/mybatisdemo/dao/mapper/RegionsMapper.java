@@ -7,6 +7,8 @@ package su90.mybatisdemo.dao.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import su90.mybatisdemo.dao.domain.Regions;
 
@@ -16,6 +18,10 @@ import su90.mybatisdemo.dao.domain.Regions;
  */
 @Mapper
 public interface RegionsMapper {
+    @Results({
+            @Result(property = "id",column = "region_id"),
+            @Result(property = "name",column = "region_name")
+    })
     @Select("select * from regions where region_id = #{id}")
     Regions findById(@Param("id") Long id);
 }

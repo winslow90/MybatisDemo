@@ -59,8 +59,8 @@ public class RegionsMapperTest {
     @Test
     public void testFindById(){
         Regions result = this.regionsMapper.findById(1L);
-        assertEquals(result.getRegion_id(), new Long(1L));
-        assertEquals(result.getRegion_name(), "Europe"); 
+        assertEquals(result.getId(), new Long(1L));
+        assertEquals(result.getName(), "Europe"); 
     }
     
     
