@@ -16,12 +16,37 @@ import su90.mybatisdemo.Application;
 import su90.mybatisdemo.dao.mapper.RegionsMapper;
 import su90.mybatisdemo.dao.domain.Regions;
 
+import static org.junit.Assert.*;
+import org.springframework.boot.test.context.SpringBootTest;
+import su90.mybatisdemo.DaoConfig;
+
 /**
+ * 
+ * the same as the one below
+ * @SpringBootTest
+ * 
+ * 
+ * @ContextConfiguration(classes = Application.class,initializers = ConfigFileApplicationContextInitializer.class)
+ * 
+ * 
+ * working when the daoconfig contains sqlsessiontemplate and sqlsessionfactory
+ * 
+ * @ContextConfiguration(classes = DaoConfig.class)
+    @TestPropertySource(properties = {
+        "oracle.datasource.driver_class_name: oracle.jdbc.OracleDriver",
+       "oracle.datasource.url: jdbc:oracle:thin:@192.168.1.101:1521:db01",
+       "oracle.datasource.username: mybatisdemo",
+       "oracle.datasource.password: mybatisdemopw"
+})
  *
+ * oracle.datasource.driver_class_name: oracle.jdbc.OracleDriver
+   oracle.datasource.url: jdbc:oracle:thin:@192.168.1.101:1521:db01
+   oracle.datasource.username: mybatisdemo
+   oracle.datasource.password: mybatisdemopw
  * @author superman90
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = Application.class,initializers = ConfigFileApplicationContextInitializer.class)
+@SpringBootTest
 public class RegionsMapperTest {
     
     @Autowired
@@ -34,7 +59,8 @@ public class RegionsMapperTest {
     @Test
     public void testFindById(){
         Regions result = this.regionsMapper.findById(1L);
-        System.out.print(result);
+        assertEquals(result.getRegion_id(), new Long(1L));
+        assertEquals(result.getRegion_name(), "Europe"); 
     }
     
     
