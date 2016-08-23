@@ -16,6 +16,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ import org.springframework.context.annotation.Configuration;
  * @author superman90
  */
 @Configuration
+@MapperScan(basePackages = "su90.mybatisdemo.dao.mapper")
 @ConfigurationProperties("oracle.datasource")
 public class DaoConfig {
     
@@ -69,27 +71,36 @@ public class DaoConfig {
         return null;
     }
     
-    @Bean
-    TransactionFactory transactionFactory(){
-        return new JdbcTransactionFactory();
-    }
+//    @Bean
+//    TransactionFactory transactionFactory(){
+//        return new JdbcTransactionFactory();
+//    }
+//    
+//    @Bean
+//    Environment environment(){
+//        return new Environment("development",transactionFactory(),dataSource());
+//    }
+//    
+//    @Bean(name="ibatis_configuration")
+//    org.apache.ibatis.session.Configuration configuration(){
+//        org.apache.ibatis.session.Configuration result = new org.apache.ibatis.session.Configuration(environment());
+//        result.addMappers("su90.mybatisdemo.dao.mappers");
+//        result.setLazyLoadingEnabled(true);
+//        return result;
+//    }
+//    
+//    @Bean
+//    SqlSessionFactory sqlSessionFactory(){
+//        SqlSessionFactory result = new SqlSessionFactoryBuilder().build(configuration());
+//        return result;
+//    }
     
-    @Bean
-    Environment environment(){
-        return new Environment("development",transactionFactory(),dataSource());
-    }
-    
-    @Bean(name="ibatis_configuration")
-    org.apache.ibatis.session.Configuration configuration(){
-        org.apache.ibatis.session.Configuration result = new org.apache.ibatis.session.Configuration(environment());
-        result.addMappers("su90.mybatisdemo.dao.mappers");
-        return result;
-    }
-    
-    @Bean
-    SqlSessionFactory sqlSessionFactory(){
-        SqlSessionFactory result = new SqlSessionFactoryBuilder().build(configuration());
-        return result;
-    }
+    //never froget to close the session
+//    SqlSession session = sqlSessionFactory.openSession();
+//    try {
+//    // do work
+//    } finally {
+//    session.close();
+//    }
         
 }
