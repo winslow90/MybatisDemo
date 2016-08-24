@@ -6,6 +6,7 @@
 package su90.mybatisdemo.dao.mapper;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -48,5 +49,11 @@ public interface RegionsMapper {
     @Insert("insert into regions(region_id,region_name) values(#{id},#{name})") //p62 samples for @selectkey
     @SelectKey(statement = "select REGIONS_SEQ.NEXTVAL from dual",keyProperty ="id",resultType = Long.class,before = true)
     void insertOneRegion(Regions region);
+    
+    @Delete("delete from regions where region_id =#{id}")
+    void deleteById(Long id);
+    
+    @Delete("delete from regions where region_id =#{id}")
+    void deleteByRegionId(Regions region);
     
 }

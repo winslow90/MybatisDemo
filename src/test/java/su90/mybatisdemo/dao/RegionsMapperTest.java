@@ -19,6 +19,7 @@ import su90.mybatisdemo.dao.domain.Regions;
 
 import static org.junit.Assert.*;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import su90.mybatisdemo.DaoConfig;
 
 /**
@@ -81,6 +82,34 @@ public class RegionsMapperTest {
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getName(), "Pacific");
     }
+    
+    @Test
+    public void testInsertAnotherRegions(){
+        Regions newregion = new Regions(Long.MIN_VALUE, "Artic");
+        regionsMapper.insertOneRegion(newregion);
+        assertNotNull(newregion.getId());
+        assertTrue(newregion.getId()>0);
+        
+        List<Regions> result = regionsMapper.findByName("artic");
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0).getName(), "Artic");
+    }
+    
+    @Test
+    public void testDeletebyId(){
+        Regions tobedeletedregion = regionsMapper.findByName("Pacific").get(0);
+        regionsMapper.deleteById(tobedeletedregion.getId());
+        assertEquals(regionsMapper.findByName("Pacific").size(), 0);
+    }
+    
+    
+    @Test
+    public void testDeletebyRegionId(){
+        Regions tobedeletedregion = regionsMapper.findByName("artic").get(0);
+        regionsMapper.deleteByRegionId(tobedeletedregion);
+        assertEquals(regionsMapper.findByName("artic").size(), 0);
+    } 
+    
     
     
 }
