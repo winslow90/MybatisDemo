@@ -5,6 +5,7 @@
  */
 package su90.mybatisdemo.dao;
 
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +58,28 @@ public class RegionsMapperTest {
     }
     
     @Test
+    public void testFindAll(){
+        List<Regions> result = regionsMapper.findAll();
+        assertNotNull(result);
+    }
+    
+    @Test
     public void testFindById(){
         Regions result = this.regionsMapper.findById(1L);
         assertEquals(result.getId(), new Long(1L));
         assertEquals(result.getName(), "Europe"); 
+    }
+    
+    @Test
+    public void testInsertOneRegions(){
+        Regions newregion = new Regions(Long.MIN_VALUE, "Pacific");
+        regionsMapper.insertOneRegion(newregion);
+        assertNotNull(newregion.getId());
+        assertTrue(newregion.getId()>0);
+        
+        List<Regions> result = regionsMapper.findByName("pacific");
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0).getName(), "Pacific");
     }
     
     

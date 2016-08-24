@@ -18,6 +18,10 @@ public class Regions implements Serializable{
     public Regions(){
     }
 
+    public Regions(String name) {
+        this.name = name;
+    }
+
     public Regions(Long region_id, String region_name) {
         this.id = region_id;
         this.name = region_name;
