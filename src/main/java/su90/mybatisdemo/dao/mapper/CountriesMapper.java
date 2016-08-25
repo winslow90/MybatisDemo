@@ -32,7 +32,7 @@ public interface CountriesMapper {
         @Result(property = "region",column = "region_id",
                 javaType = Region.class,
                 one = @One(
-                        select = "su90.mybatisdemo.dao.mapper.RegionsMapper.doSelectRegion",
+                        select = "su90.mybatisdemo.dao.mapper.RegionsMapper._doSelectRegion",
                         fetchType = FetchType.LAZY
                 ))
     })

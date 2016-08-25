@@ -47,7 +47,7 @@ public interface RegionsMapper {
             @Result(property = "name",column = "region_name")
     })
     @Options(useCache = true)        
-    Region doSelectRegion(Long region_id);
+    Region _doSelectRegion(Long region_id);
     
     @Select("select * from regions")
     @Results(value={
