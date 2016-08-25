@@ -72,6 +72,17 @@ public class RegionsMapperTest {
     }
     
     @Test
+    public void testInsertUpdateDelete(){
+        testInsertOneRegions();
+        testInsertAnotherRegions();
+        testUpdateOneRegion();
+        testUpdateOneRegionwithEmpty();
+        testUpdateOneRegionwithNull();
+        testDeletebyId();
+        testDeletebyRegionId();
+    }
+    
+//    @Test
     public void testInsertOneRegions(){
         Regions newregion = new Regions(Long.MIN_VALUE, "Pacific");
         regionsMapper.insertOneRegion(newregion);
@@ -83,7 +94,7 @@ public class RegionsMapperTest {
         assertEquals(result.get(0).getName(), "Pacific");
     }
     
-    @Test
+//    @Test
     public void testInsertAnotherRegions(){
         Regions newregion = new Regions(Long.MIN_VALUE, "Artic");
         regionsMapper.insertOneRegion(newregion);
@@ -95,21 +106,40 @@ public class RegionsMapperTest {
         assertEquals(result.get(0).getName(), "Artic");
     }
     
-    @Test
+//    @Test
+    public void testUpdateOneRegion(){
+        Regions pacificregion = regionsMapper.findByName("Pacific").get(0);
+        pacificregion.setName("Pacific01");
+        regionsMapper.updateOneRegions(pacificregion);
+    }
+    
+//    @Test
+    public void testUpdateOneRegionwithEmpty(){
+        Regions pacificregion = regionsMapper.findByName("Pacific01").get(0);
+        pacificregion.setName("");
+        regionsMapper.updateOneRegions(pacificregion);
+    }
+    
+//    @Test
+    public void testUpdateOneRegionwithNull(){
+        Regions pacificregion = regionsMapper.findByName("Pacific01").get(0);
+        pacificregion.setName(null);
+        regionsMapper.updateOneRegions(pacificregion);
+    }
+    
+//    @Test
     public void testDeletebyId(){
-        Regions tobedeletedregion = regionsMapper.findByName("Pacific").get(0);
+        Regions tobedeletedregion = regionsMapper.findByName("Pacific01").get(0);
         regionsMapper.deleteById(tobedeletedregion.getId());
-        assertEquals(regionsMapper.findByName("Pacific").size(), 0);
+        assertEquals(regionsMapper.findByName("Pacific01").size(), 0);
     }
     
     
-    @Test
+//    @Test
     public void testDeletebyRegionId(){
         Regions tobedeletedregion = regionsMapper.findByName("artic").get(0);
         regionsMapper.deleteByRegionId(tobedeletedregion);
         assertEquals(regionsMapper.findByName("artic").size(), 0);
     } 
-    
-    
     
 }

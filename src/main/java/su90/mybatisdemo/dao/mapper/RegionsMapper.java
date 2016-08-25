@@ -15,6 +15,8 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.UpdateProvider;
+import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import su90.mybatisdemo.dao.domain.Regions;
 
 /**
@@ -22,7 +24,22 @@ import su90.mybatisdemo.dao.domain.Regions;
  * @author superman90
  */
 @Mapper
-public interface RegionsMapper {        
+public interface RegionsMapper {
+    
+    static public class SqlBuilderHelper{        
+        public String buildUpdateString(Regions region){
+            BEGIN();
+            if (region.getName()!=null && !region.getName().isEmpty()){
+                UPDATE("regions re");
+                SET("re.region_name=#{name}");
+                WHERE("re.region_id=#{id}");                                    
+            }else{
+                SELECT("dummy");
+                FROM("dual");
+            }
+            return SQL();
+        }        
+    }
     
     @Select("select * from regions")
     @Results(value={
@@ -49,6 +66,9 @@ public interface RegionsMapper {
     @Insert("insert into regions(region_id,region_name) values(#{id},#{name})") //p62 samples for @selectkey
     @SelectKey(statement = "select REGIONS_SEQ.NEXTVAL from dual",keyProperty ="id",resultType = Long.class,before = true)
     void insertOneRegion(Regions region);
+    
+    @UpdateProvider(type = SqlBuilderHelper.class,method ="buildUpdateString")
+    void updateOneRegions(Regions region);
     
     @Delete("delete from regions where region_id =#{id}")
     void deleteById(Long id);
