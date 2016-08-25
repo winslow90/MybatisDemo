@@ -6,6 +6,8 @@
 package su90.mybatisdemo;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -16,17 +18,19 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 /**
  *
  * @author superman90
  */
 @Configuration
-@MapperScan(basePackages = "su90.mybatisdemo.dao.mapper")
+//@MapperScan(basePackages = "su90.mybatisdemo.dao.mapper")
 @ConfigurationProperties("oracle.datasource")
 public class DaoConfig {
     
@@ -75,25 +79,35 @@ public class DaoConfig {
 //    TransactionFactory transactionFactory(){
 //        return new JdbcTransactionFactory();
 //    }
-//    
-//    @Bean
-//    Environment environment(){
-//        return new Environment("development",transactionFactory(),dataSource());
-//    }
-//    
-//    @Bean(name="ibatis_configuration")
-//    org.apache.ibatis.session.Configuration configuration(){
-//        org.apache.ibatis.session.Configuration result = new org.apache.ibatis.session.Configuration(environment());
-//        result.addMappers("su90.mybatisdemo.dao.mappers");
-//        result.setLazyLoadingEnabled(true);
-//        return result;
-//    }
-//    
-//    @Bean
-//    SqlSessionFactory sqlSessionFactory(){
-//        SqlSessionFactory result = new SqlSessionFactoryBuilder().build(configuration());
-//        return result;
-//    }
+    @Bean
+    public DataSourceTransactionManager transactionManager(){
+        return new DataSourceTransactionManager(dataSource());
+    }
+    
+    @Bean
+    Environment mybatisEnvironment(){
+        return new Environment("development", new ManagedTransactionFactory(),dataSource());
+    }
+    
+    @Bean(name="ibatis_configuration")
+    org.apache.ibatis.session.Configuration mybatisConfiguration(){
+        org.apache.ibatis.session.Configuration conf = new org.apache.ibatis.session.Configuration(mybatisEnvironment());
+        conf.addMappers("su90.mybatisdemo.dao.mappers");
+//        conf.getLazyLoadTriggerMethods().clear();
+//        conf.setCacheEnabled(true);
+//        conf.setLazyLoadingEnabled(true);
+//        conf.setAggressiveLazyLoading(true);
+//        conf.setLazyLoadTriggerMethods(new HashSet<>(Arrays.asList(new String[] { "equals", "clone", "hashCode", "toString" })));
+//        conf.setUseColumnLabel(true);
+//        conf.setMultipleResultSetsEnabled(true);
+        return conf;
+    }
+    
+    @Bean
+    SqlSessionFactory sqlSessionFactory(){
+        SqlSessionFactory result = new SqlSessionFactoryBuilder().build(mybatisConfiguration());
+        return result;
+    }
     
     //never froget to close the session
 //    SqlSession session = sqlSessionFactory.openSession();
