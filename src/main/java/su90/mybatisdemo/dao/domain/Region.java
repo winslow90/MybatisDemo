@@ -11,18 +11,18 @@ import java.io.Serializable;
  *
  * @author superman90
  */
-public class Regions implements Serializable{
+public class Region implements Serializable{
     Long id;
     String name;
 
-    public Regions(){
+    public Region(){
     }
 
-    public Regions(String name) {
+    public Region(String name) {
         this.name = name;
     }
 
-    public Regions(Long region_id, String region_name) {
+    public Region(Long region_id, String region_name) {
         this.id = region_id;
         this.name = region_name;
     }

@@ -17,7 +17,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.UpdateProvider;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
-import su90.mybatisdemo.dao.domain.Regions;
+import su90.mybatisdemo.dao.domain.Region;
 
 /**
  *
@@ -27,7 +27,7 @@ import su90.mybatisdemo.dao.domain.Regions;
 public interface RegionsMapper {
     
     static public class SqlBuilderHelper{        
-        public String buildUpdateString(Regions region){
+        public String buildUpdateString(Region region){
             BEGIN();
             if (region.getName()!=null && !region.getName().isEmpty()){
                 UPDATE("regions re");
@@ -46,14 +46,14 @@ public interface RegionsMapper {
             @Result(property = "id",column = "region_id"),
             @Result(property = "name",column = "region_name")
     })
-    List<Regions> findAll();
+    List<Region> findAll();
     
     @Select("select region_id,region_name from regions where region_id = #{id}")
     @Results(value={
             @Result(property = "id",column = "region_id"),
             @Result(property = "name",column = "region_name")
     })
-    Regions findById(@Param("id") Long id);
+    Region findById(@Param("id") Long id);
     
 //    ParameterMapping{property='sername', mode=IN, javaType=class java.lang.String, jdbcType=CHAR, numericScale=null, resultMapId='null', jdbcTypeName='null', expression='null'}
     @Select("select region_id,region_name from regions where upper(region_name) like upper(#{searchstr})")
@@ -61,19 +61,19 @@ public interface RegionsMapper {
             @Result(property = "id",column = "region_id"),
             @Result(property = "name",column = "region_name")
     })
-    List<Regions> findByName(String searchstr);
+    List<Region> findByName(String searchstr);
     
     @Insert("insert into regions(region_id,region_name) values(#{id},#{name})") //p62 samples for @selectkey
     @SelectKey(statement = "select REGIONS_SEQ.NEXTVAL from dual",keyProperty ="id",resultType = Long.class,before = true)
-    void insertOneRegion(Regions region);
+    void insertOneRegion(Region region);
     
     @UpdateProvider(type = SqlBuilderHelper.class,method ="buildUpdateString")
-    void updateOneRegions(Regions region);
+    void updateOneRegions(Region region);
     
     @Delete("delete from regions where region_id =#{id}")
     void deleteById(Long id);
     
     @Delete("delete from regions where region_id =#{id}")
-    void deleteByRegionId(Regions region);
+    void deleteByRegionId(Region region);
     
 }

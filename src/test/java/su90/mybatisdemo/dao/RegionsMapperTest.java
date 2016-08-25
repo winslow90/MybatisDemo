@@ -15,7 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import su90.mybatisdemo.Application;
 import su90.mybatisdemo.dao.mapper.RegionsMapper;
-import su90.mybatisdemo.dao.domain.Regions;
+import su90.mybatisdemo.dao.domain.Region;
 
 import static org.junit.Assert.*;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,13 +60,13 @@ public class RegionsMapperTest {
     
     @Test
     public void testFindAll(){
-        List<Regions> result = regionsMapper.findAll();
+        List<Region> result = regionsMapper.findAll();
         assertNotNull(result);
     }
     
     @Test
     public void testFindById(){
-        Regions result = this.regionsMapper.findById(1L);
+        Region result = this.regionsMapper.findById(1L);
         assertEquals(result.getId(), new Long(1L));
         assertEquals(result.getName(), "Europe"); 
     }
@@ -84,52 +84,52 @@ public class RegionsMapperTest {
     
 //    @Test
     public void testInsertOneRegions(){
-        Regions newregion = new Regions(Long.MIN_VALUE, "Pacific");
+        Region newregion = new Region(Long.MIN_VALUE, "Pacific");
         regionsMapper.insertOneRegion(newregion);
         assertNotNull(newregion.getId());
         assertTrue(newregion.getId()>0);
         
-        List<Regions> result = regionsMapper.findByName("pacific");
+        List<Region> result = regionsMapper.findByName("pacific");
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getName(), "Pacific");
     }
     
 //    @Test
     public void testInsertAnotherRegions(){
-        Regions newregion = new Regions(Long.MIN_VALUE, "Artic");
+        Region newregion = new Region(Long.MIN_VALUE, "Artic");
         regionsMapper.insertOneRegion(newregion);
         assertNotNull(newregion.getId());
         assertTrue(newregion.getId()>0);
         
-        List<Regions> result = regionsMapper.findByName("artic");
+        List<Region> result = regionsMapper.findByName("artic");
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getName(), "Artic");
     }
     
 //    @Test
     public void testUpdateOneRegion(){
-        Regions pacificregion = regionsMapper.findByName("Pacific").get(0);
+        Region pacificregion = regionsMapper.findByName("Pacific").get(0);
         pacificregion.setName("Pacific01");
         regionsMapper.updateOneRegions(pacificregion);
     }
     
 //    @Test
     public void testUpdateOneRegionwithEmpty(){
-        Regions pacificregion = regionsMapper.findByName("Pacific01").get(0);
+        Region pacificregion = regionsMapper.findByName("Pacific01").get(0);
         pacificregion.setName("");
         regionsMapper.updateOneRegions(pacificregion);
     }
     
 //    @Test
     public void testUpdateOneRegionwithNull(){
-        Regions pacificregion = regionsMapper.findByName("Pacific01").get(0);
+        Region pacificregion = regionsMapper.findByName("Pacific01").get(0);
         pacificregion.setName(null);
         regionsMapper.updateOneRegions(pacificregion);
     }
     
 //    @Test
     public void testDeletebyId(){
-        Regions tobedeletedregion = regionsMapper.findByName("Pacific01").get(0);
+        Region tobedeletedregion = regionsMapper.findByName("Pacific01").get(0);
         regionsMapper.deleteById(tobedeletedregion.getId());
         assertEquals(regionsMapper.findByName("Pacific01").size(), 0);
     }
@@ -137,7 +137,7 @@ public class RegionsMapperTest {
     
 //    @Test
     public void testDeletebyRegionId(){
-        Regions tobedeletedregion = regionsMapper.findByName("artic").get(0);
+        Region tobedeletedregion = regionsMapper.findByName("artic").get(0);
         regionsMapper.deleteByRegionId(tobedeletedregion);
         assertEquals(regionsMapper.findByName("artic").size(), 0);
     } 
