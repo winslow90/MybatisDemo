@@ -15,6 +15,7 @@ import su90.mybatisdemo.dao.domain.Country;
 import su90.mybatisdemo.dao.mapper.CountriesMapper;
 import static org.junit.Assert.*;
 import su90.mybatisdemo.dao.domain.Region;
+import su90.mybatisdemo.dao.mapper.RegionsMapper;
 
 /**
  *
@@ -26,6 +27,9 @@ public class CountriesMapperTest {
     
     @Autowired
     CountriesMapper countriesMapper;
+    
+    @Autowired
+    RegionsMapper regionsMapper;
 
     public void setCountriesMapper(CountriesMapper countriesMapper) {
         this.countriesMapper = countriesMapper;
@@ -38,6 +42,40 @@ public class CountriesMapperTest {
         Country firstchild= result.get(0);
         Region firstchildregion = firstchild.getRegion();
         assertNotNull(firstchildregion);
+    }
+    
+    @Test
+    public void testFindById(){
+        Country onecountry = countriesMapper.findById("JP");
+        assertNotNull(onecountry);
+        assertNotNull(onecountry.getRegion());
+    }
+    
+    @Test
+    public void testFindByRawProperties01(){        
+        Country sampleCountry = new Country("Japan", regionsMapper.findByName("Asia").get(0));
+        sampleCountry.setName(null);
+        List<Country> result = countriesMapper.findByRawProperties(sampleCountry);
+        assertTrue(result.size()>0);
+        assertNotNull(result.get(0).getRegion());
+    }
+    
+    @Test
+    public void testFindByRawProperties02(){        
+        Country sampleCountry = new Country("Japan", regionsMapper.findByName("Asia").get(0));
+        sampleCountry.setRegion(null);
+        List<Country> result = countriesMapper.findByRawProperties(sampleCountry);
+        assertTrue(result.size()>0);
+        assertNotNull(result.get(0).getRegion());
+    }
+    
+    @Test
+    public void testFindByRawProperties03(){        
+        Country sampleCountry = new Country();
+        List<Country> result = countriesMapper.findByRawProperties(sampleCountry);
+        assertTrue(result.size()==1);
+        assertNull(result.get(0));
+//        assertNotNull(result.get(0).getRegion());
     }
     
 }

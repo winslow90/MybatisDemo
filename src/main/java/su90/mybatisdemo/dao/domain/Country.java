@@ -69,4 +69,8 @@ public class Country implements Serializable{
         return sb.toString();
     }
     
+    
+    public Boolean isValidated(){
+        return (name!=null&&!name.isEmpty())||(region!=null&&region.getId()!=null);
+    }
 }

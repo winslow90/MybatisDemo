@@ -41,13 +41,13 @@ public interface RegionsMapper {
         }        
     }
     
-    @Select("select * from regions where region_id=#{region_id}")
-    @Results(value={
-            @Result(property = "id",column = "region_id"),
-            @Result(property = "name",column = "region_name")
-    })
-    @Options(useCache = true)        
-    Region _doSelectRegion(Long region_id);
+//    @Select("select * from regions where region_id=#{region_id}")
+//    @Results(value={
+//            @Result(property = "id",column = "region_id"),
+//            @Result(property = "name",column = "region_name")
+//    })
+//    @Options(useCache = true)        
+//    Region _doSelectRegion(Long region_id);
     
     @Select("select * from regions")
     @Results(value={
@@ -57,6 +57,7 @@ public interface RegionsMapper {
     List<Region> findAll();
     
     @Select("select region_id,region_name from regions where region_id = #{id}")
+    @Options(useCache = true)
     @Results(value={
             @Result(property = "id",column = "region_id"),
             @Result(property = "name",column = "region_name")
