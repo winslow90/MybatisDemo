@@ -31,6 +31,10 @@ public class CountriesMapperTest {
     @Autowired
     RegionsMapper regionsMapper;
 
+    public void setRegionsMapper(RegionsMapper regionsMapper) {
+        this.regionsMapper = regionsMapper;
+    }
+
     public void setCountriesMapper(CountriesMapper countriesMapper) {
         this.countriesMapper = countriesMapper;
     }
