@@ -20,6 +20,19 @@ public class Job implements Serializable{
     public Job() {
     }
 
+    public Job(String title, Long min_sal, Long max_sal) {
+        this.title = title;
+        this.min_sal = min_sal;
+        this.max_sal = max_sal;
+    }
+
+    public Job(String id, String title, Long min_sal, Long max_sal) {
+        this.id = id;
+        this.title = title;
+        this.min_sal = min_sal;
+        this.max_sal = max_sal;
+    }
+
     public String getId() {
         return id;
     }
@@ -58,6 +71,10 @@ public class Job implements Serializable{
     }        
         
     public Boolean isValidated(){
-        throw new UnsupportedOperationException("TODO: unfinished yet");
+        return 
+                (title!=null&&!title.isEmpty())||
+                (min_sal!=null&&min_sal>=0&&(max_sal==null||max_sal>=min_sal))||
+                (max_sal!=null&&max_sal>=0&&(min_sal==null||max_sal>=min_sal))
+        ;
     }
 }
