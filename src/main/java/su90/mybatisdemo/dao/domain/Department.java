@@ -20,6 +20,19 @@ public class Department implements Serializable{
 
     public Department() {
     }
+
+    public Department(String name, Employee manager, Location location) {
+        this.name = name;
+        this.manager = manager;
+        this.location = location;
+    }
+
+    public Department(Long id, String name, Employee manager, Location location) {
+        this.id = id;
+        this.name = name;
+        this.manager = manager;
+        this.location = location;
+    }
     
     public Long getId() {
         return id;
@@ -55,7 +68,7 @@ public class Department implements Serializable{
 
     @Override
     public String toString() {
-        return "Department{" + "id=" + id + ", name=" + name + ", manager=" + manager + ", location=" + location + '}';
+        return "Department{" + "id=" + id + ", name=" + name + ", manager_id=" + manager.getId() + ", location_id=" + location.getId() + '}';
     }
     
     public Boolean isValidated(){

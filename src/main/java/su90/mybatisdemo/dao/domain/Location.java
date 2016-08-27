@@ -102,8 +102,8 @@ public class Location implements Serializable{
             sb.append(city);
             sb.append("state_province:");
             sb.append(province);
-            sb.append("country:");
-            sb.append(country);
+            sb.append("country_id:");
+            sb.append(country.getId());
             sb.append('}');        
         return sb.toString();
     }

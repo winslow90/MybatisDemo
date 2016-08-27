@@ -12,22 +12,51 @@ import java.sql.Date;
  *
  * @author superman90
  */
-class Employee implements Serializable{
+public class Employee implements Serializable{
 
-    Long id;
-    String fname;
-    String lname;
-    String email;
-    String phone;
-    Date hiredate;
-    Job job;
-    Double salary;
-    Double comm;
-    Employee manager;
-    Department department;   
+    public Long id;
+    public String fname;
+    public String lname;
+    public String email;
+    public String phone;
+    public Date hiredate;
+    public Job job;
+    public Double salary;
+    public Double comm;
+    public Employee manager;
+    public Department department;   
 
     public Employee() {
     }
+
+    public Employee(String fname, String lname, String email, String phone, Date hiredate, Job job, Double salary, Double comm, Employee manager, Department department) {
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.phone = phone;
+        this.hiredate = hiredate;
+        this.job = job;
+        this.salary = salary;
+        this.comm = comm;
+        this.manager = manager;
+        this.department = department;
+    }
+
+    public Employee(Long id, String fname, String lname, String email, String phone, Date hiredate, Job job, Double salary, Double comm, Employee manager, Department department) {
+        this.id = id;
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.phone = phone;
+        this.hiredate = hiredate;
+        this.job = job;
+        this.salary = salary;
+        this.comm = comm;
+        this.manager = manager;
+        this.department = department;
+    }
+    
+    
     
     public Long getId() {
         return id;
@@ -119,10 +148,20 @@ class Employee implements Serializable{
 
     @Override
     public String toString() {
-        return "Employee{" + "id=" + id + ", fname=" + fname + ", lname=" + lname + ", email=" + email + ", phone=" + phone + ", hiredate=" + hiredate + ", job=" + job + ", salary=" + salary + ", comm=" + comm + ", manager=" + manager + ", department=" + department + '}';
+        return "Employee{" + "id=" + id + ", fname=" + fname + ", lname=" + lname + ", email=" + email + ", phone=" + phone + ", hiredate=" + hiredate + ", job_id=" + job.getId() + ", salary=" + salary + ", comm=" + comm + ", manager_id=" + manager.getId() + ", department_id=" + department.getId() + '}';
     }
     
     public Boolean isValidated(){
-        throw new UnsupportedOperationException("TODO: unfinished yet");
+        return 
+                (fname!=null&&!fname.isEmpty())||
+                (lname!=null&&!lname.isEmpty())||
+                (email!=null&&!email.isEmpty())||
+                (phone!=null&&!phone.isEmpty())||
+                (hiredate!=null)||
+                (job!=null&&job.getId()!=null)||
+                (salary!=null&&salary>=0)||
+                (comm!=null&&comm>=0)||
+                (manager!=null&&manager.getId()!=null)||
+                (department!=null&&department.getId()!=null);
     }
 }

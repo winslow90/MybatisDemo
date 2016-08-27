@@ -63,8 +63,8 @@ public class Country implements Serializable{
             sb.append(id);
             sb.append("country_name:");
             sb.append(name);
-            sb.append("region:");
-            sb.append(region);
+            sb.append("region_id:");
+            sb.append(region.getId());
             sb.append('}');        
         return sb.toString();
     }
