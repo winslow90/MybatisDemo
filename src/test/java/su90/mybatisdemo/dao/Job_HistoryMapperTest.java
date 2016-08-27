@@ -70,4 +70,31 @@ public class Job_HistoryMapperTest {
         }
     }
     
+    @Test
+    public void testFindByRawProperties01(){
+        try{            
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            java.util.Date start_util_date = formatter.parse("20010113");        
+            Job_History search = job_HistoryMapper.findByIdRaw(102L, new Date(start_util_date.getTime()));
+            
+            List<Job_History> result = job_HistoryMapper.findByRawProperties(search);
+            
+            assertEquals(result.size(), 1);
+            assertNotNull(result.get(0));
+            assertNotNull(result.get(0).getEmployee());
+            assertNotNull(result.get(0).getJob());
+            assertNotNull(result.get(0).getDepartment());
+        }catch(ParseException ex){
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void testFindByRawProperties03(){
+        List<Job_History> result = job_HistoryMapper.findByRawProperties(new Job_History());
+
+        assertEquals(result.size(), 1);
+        assertNull(result.get(0));
+    }
+    
 }

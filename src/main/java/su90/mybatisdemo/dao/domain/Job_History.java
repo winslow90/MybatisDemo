@@ -87,7 +87,12 @@ public class Job_History implements Serializable{
     }
     
     public Boolean isValidated(){
-        throw new UnsupportedOperationException("TODO: unfinished yet");
+        return 
+                (employee!=null&& employee.getId()!=null)||
+                (start_date!=null)||
+                (end_date!=null)||
+                (job!=null&&job.getId()!=null)||
+                (department!=null&&department.getId()!=null);
     }
     
 }
