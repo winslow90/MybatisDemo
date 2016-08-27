@@ -176,7 +176,7 @@ public interface EmployeesMapper {
         @Result(property = "department", column = "department_id",
                 one = @One(
                        select = "su90.mybatisdemo.dao.mapper.DepartmentsMapper.findById",
-                        fetchType = FetchType.LAZY
+                       fetchType = FetchType.LAZY
                 ))
     })
     List<Employee> findAll();
