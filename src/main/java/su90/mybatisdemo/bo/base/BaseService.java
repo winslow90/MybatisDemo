@@ -19,6 +19,6 @@ public interface BaseService<T,K,Q> {
     public T getEntryById(K id);
     public void deleteEntriesByIds(K[] ids);
     public void deleteEntryById(K id);
-    public Integer count();
+    public Long count();
     
 }

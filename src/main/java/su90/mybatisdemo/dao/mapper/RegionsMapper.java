@@ -77,10 +77,10 @@ public interface RegionsMapper extends BaseMapper<Region, Long, Region>{
     
     @Insert("insert into regions(region_id,region_name) values(#{id},#{name})") //p62 samples for @selectkey
     @SelectKey(statement = "select REGIONS_SEQ.NEXTVAL from dual",keyProperty ="id",resultType = Long.class,before = true)
-    void insertOneRegion(Region region);
+    void insertOne(Region region);
     
     @UpdateProvider(type = SqlBuilderHelper.class,method ="buildUpdateString")
-    void updateOneRegions(Region region);
+    void updateOne(Region region);
     
     @Delete("delete from regions where region_id =#{id}")
     void deleteById(Long id);

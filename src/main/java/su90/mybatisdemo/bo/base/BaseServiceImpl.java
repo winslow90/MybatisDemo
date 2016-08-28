@@ -34,12 +34,12 @@ public abstract class BaseServiceImpl<T, K, Q> implements BaseService<T, K, Q>{
 
     @Override
     public void saveEntry(T t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getBaseMapper().insertOne(t);
     }
 
     @Override
     public void updateEntry(T t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getBaseMapper().updateOne(t);
     }
 
     @Override
@@ -49,17 +49,19 @@ public abstract class BaseServiceImpl<T, K, Q> implements BaseService<T, K, Q>{
 
     @Override
     public void deleteEntriesByIds(K[] ids) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (K id : ids){
+            deleteEntryById(id);
+        }
     }
 
     @Override
     public void deleteEntryById(K id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getBaseMapper().deleteById(id);
     }
 
     @Override
-    public Integer count() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Long count() {
+        return getBaseMapper().count();
     }
     
 }

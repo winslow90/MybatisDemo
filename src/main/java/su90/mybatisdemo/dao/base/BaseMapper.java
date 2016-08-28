@@ -17,5 +17,9 @@ import java.util.List;
 public interface BaseMapper<T,K,Q> {
     public List<T> findAll();
     public T findById(K id);
-    public List<T> findByRawProperties(Q bean);    
+    public List<T> findByRawProperties(Q bean);
+    public void insertOne(T bean);
+    public void updateOne(T bean);
+    public void deleteById(K id);
+    public Long count();
 }

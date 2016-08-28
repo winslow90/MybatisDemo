@@ -85,7 +85,7 @@ public class RegionsMapperTest {
 //    @Test
     public void testInsertOneRegions(){
         Region newregion = new Region(Long.MIN_VALUE, "Pacific");
-        regionsMapper.insertOneRegion(newregion);
+        regionsMapper.insertOne(newregion);
         assertNotNull(newregion.getId());
         assertTrue(newregion.getId()>0);
         
@@ -97,7 +97,7 @@ public class RegionsMapperTest {
 //    @Test
     public void testInsertAnotherRegions(){
         Region newregion = new Region(Long.MIN_VALUE, "Artic");
-        regionsMapper.insertOneRegion(newregion);
+        regionsMapper.insertOne(newregion);
         assertNotNull(newregion.getId());
         assertTrue(newregion.getId()>0);
         
@@ -110,21 +110,21 @@ public class RegionsMapperTest {
     public void testUpdateOneRegion(){
         Region pacificregion = regionsMapper.findByName("Pacific").get(0);
         pacificregion.setName("Pacific01");
-        regionsMapper.updateOneRegions(pacificregion);
+        regionsMapper.updateOne(pacificregion);
     }
     
 //    @Test
     public void testUpdateOneRegionwithEmpty(){
         Region pacificregion = regionsMapper.findByName("Pacific01").get(0);
         pacificregion.setName("");
-        regionsMapper.updateOneRegions(pacificregion);
+        regionsMapper.updateOne(pacificregion);
     }
     
 //    @Test
     public void testUpdateOneRegionwithNull(){
         Region pacificregion = regionsMapper.findByName("Pacific01").get(0);
         pacificregion.setName(null);
-        regionsMapper.updateOneRegions(pacificregion);
+        regionsMapper.updateOne(pacificregion);
     }
     
 //    @Test
