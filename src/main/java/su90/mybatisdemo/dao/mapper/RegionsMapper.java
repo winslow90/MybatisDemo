@@ -75,17 +75,32 @@ public interface RegionsMapper extends BaseMapper<Region, Long, Region>{
     })
     List<Region> findByName(String searchstr);
     
+    @Select("select region_id,region_name from regions where upper(region_name) like upper(#{name})")
+    @Results(value={
+            @Result(property = "id",column = "region_id"),
+            @Result(property = "name",column = "region_name")
+    })
+    @Override
+    List<Region> findByRawProperties(Region region);
+    
     @Insert("insert into regions(region_id,region_name) values(#{id},#{name})") //p62 samples for @selectkey
     @SelectKey(statement = "select REGIONS_SEQ.NEXTVAL from dual",keyProperty ="id",resultType = Long.class,before = true)
+    @Override
     void insertOne(Region region);
     
     @UpdateProvider(type = SqlBuilderHelper.class,method ="buildUpdateString")
+    @Override
     void updateOne(Region region);
     
     @Delete("delete from regions where region_id =#{id}")
+    @Override
     void deleteById(Long id);
     
     @Delete("delete from regions where region_id =#{id}")
     void deleteByRegionId(Region region);
+    
+    @Select("select count(*) from regions")
+    @Override
+    Long count();
     
 }

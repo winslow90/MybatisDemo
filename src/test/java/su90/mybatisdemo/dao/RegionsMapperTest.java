@@ -72,6 +72,15 @@ public class RegionsMapperTest {
     }
     
     @Test
+    public void testFindByRawProperties(){
+        List<Region> result = this.regionsMapper.findByRawProperties(new Region("americas"));
+        assertNotNull(result);
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0).getName(), "Americas");
+        assertEquals(result.get(0).getId(), new Long(2L));
+    }
+    
+    @Test
     public void testInsertUpdateDelete(){
         testInsertOneRegions();
         testInsertAnotherRegions();
@@ -141,5 +150,11 @@ public class RegionsMapperTest {
         regionsMapper.deleteByRegionId(tobedeletedregion);
         assertEquals(regionsMapper.findByName("artic").size(), 0);
     } 
+    
+    @Test
+    public void testCount(){
+        Long total = regionsMapper.count();
+        assertTrue(total > 0);
+    }
     
 }
