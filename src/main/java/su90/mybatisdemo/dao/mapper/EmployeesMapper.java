@@ -17,6 +17,7 @@ import org.apache.ibatis.mapping.FetchType;
 import su90.mybatisdemo.dao.domain.Employee;
 import su90.mybatisdemo.dao.domain.Job;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
+import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.domain.Department;
 
 /**
@@ -24,7 +25,7 @@ import su90.mybatisdemo.dao.domain.Department;
  * @author superman90
  */
 @Mapper
-public interface EmployeesMapper {
+public interface EmployeesMapper extends BaseMapper<Employee, Long, EmployeesMapper.EmployeeQuery> {
     
     static public class SqlBuilderHelper{
         public String buildFindByRawProperties(EmployeeQuery eq){
@@ -179,6 +180,7 @@ public interface EmployeesMapper {
                        fetchType = FetchType.LAZY
                 ))
     })
+    @Override
     List<Employee> findAll();
     
     @Select("select * from employees where employee_id = #{id}")
@@ -208,6 +210,7 @@ public interface EmployeesMapper {
                         fetchType = FetchType.LAZY
                 ))
     })
+    @Override
     Employee findById(Long id);
     
     @SelectProvider(type = SqlBuilderHelper.class, method = "buildFindByRawProperties")
@@ -237,6 +240,7 @@ public interface EmployeesMapper {
                        fetchType = FetchType.LAZY
                 ))
     })
+    @Override
     List<Employee> findByRawProperties(EmployeeQuery eq);
     
     

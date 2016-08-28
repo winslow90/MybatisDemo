@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import org.apache.ibatis.mapping.FetchType;
+import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.domain.Country;
 import su90.mybatisdemo.dao.domain.Region;
 
@@ -23,7 +24,7 @@ import su90.mybatisdemo.dao.domain.Region;
  * @author superman90
  */
 @Mapper
-public interface CountriesMapper {
+public interface CountriesMapper extends BaseMapper<Country, String, Country>{
     
     static public class SqlBuilderHelper{
         public String buildFindByRawProperties(Country country){
@@ -56,6 +57,7 @@ public interface CountriesMapper {
                         fetchType = FetchType.LAZY
                 ))
     })
+    @Override
     List<Country> findAll();
     
     @Select("select * from countries where country_id = #{id}")
@@ -69,6 +71,7 @@ public interface CountriesMapper {
                         fetchType = FetchType.LAZY
                 ))
     })
+    @Override
     Country findById(String id);
     
     @SelectProvider(type = SqlBuilderHelper.class,method ="buildFindByRawProperties")
@@ -82,6 +85,7 @@ public interface CountriesMapper {
                         fetchType = FetchType.LAZY
                 ))
     })
+    @Override
     List<Country> findByRawProperties(Country country);
     
 //    @Insert("")

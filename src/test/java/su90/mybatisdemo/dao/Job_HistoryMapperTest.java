@@ -71,6 +71,18 @@ public class Job_HistoryMapperTest {
     }
     
     @Test
+    public void testFindById03(){
+        try{
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            java.util.Date start_util_date = formatter.parse("20010113");        
+            Job_History result = job_HistoryMapper.findById(new Job_History.Key(102L, new Date(start_util_date.getTime())));
+            assertNotNull(result);
+        }catch(ParseException ex){
+            assertTrue(false);
+        }
+    }
+    
+    @Test
     public void testFindByRawProperties01(){
         try{            
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");

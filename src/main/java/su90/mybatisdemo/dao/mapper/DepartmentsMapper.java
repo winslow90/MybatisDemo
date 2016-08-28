@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.mapping.FetchType;
+import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.domain.Department;
 
 /**
@@ -19,7 +20,7 @@ import su90.mybatisdemo.dao.domain.Department;
  * @author superman90
  */
 @Mapper
-public interface DepartmentsMapper {
+public interface DepartmentsMapper extends BaseMapper<Department, Long, Department>{
     static public class SqlBuilderHelper{
         
     }
@@ -39,6 +40,7 @@ public interface DepartmentsMapper {
                         fetchType = FetchType.LAZY
         ))            
     })
+    @Override
     List<Department> findAll();
     
     @Select("select * from departments where department_id = #{id}")
@@ -56,6 +58,7 @@ public interface DepartmentsMapper {
                         fetchType = FetchType.LAZY
         ))            
     })   
-    List<Department> findById(Long id);
+    @Override
+    Department findById(Long id);
     
 }

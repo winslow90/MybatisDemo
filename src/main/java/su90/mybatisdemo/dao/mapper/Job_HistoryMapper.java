@@ -18,13 +18,14 @@ import org.apache.ibatis.mapping.FetchType;
 import su90.mybatisdemo.dao.domain.Employee;
 import su90.mybatisdemo.dao.domain.Job_History;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
+import su90.mybatisdemo.dao.base.BaseMapper;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface Job_HistoryMapper {
+public interface Job_HistoryMapper extends BaseMapper<Job_History, Job_History.Key, Job_History>{
     static public class SqlBuilderHelper{
         public String buildFindByRawProperties(Job_History jh){
             BEGIN();
@@ -80,7 +81,32 @@ public interface Job_HistoryMapper {
                        fetchType = FetchType.LAZY
                 ))
     })
+    @Override
     List<Job_History> findAll();
+    
+    @Select("select * from job_history where employee_id = #{employee_id} and start_date = #{start_date}")
+    @Results(value = {
+        @Result(property = "employee", column = "employee_id",
+                one = @One(
+                        select = "su90.mybatisdemo.dao.mapper.EmployeesMapper.findById",
+                        fetchType = FetchType.LAZY
+                )),
+        @Result(property = "start_date",column = "start_date"),
+        @Result(property = "end_date", column = "end_date"),
+        @Result(property = "job", column="job_id",
+                one = @One(
+                        select = "su90.mybatisdemo.dao.mapper.JobsMapper.findById",
+                        fetchType = FetchType.LAZY
+                        
+                )),
+        @Result(property = "department", column = "department_id",
+                one = @One(
+                       select = "su90.mybatisdemo.dao.mapper.DepartmentsMapper.findById",
+                       fetchType = FetchType.LAZY
+                ))
+    })
+    @Override
+    Job_History findById(Job_History.Key key);
     
     @Select("select * from job_history where employee_id = #{employee_id} and start_date = #{start_date}")
     @Results(value = {
@@ -149,6 +175,7 @@ public interface Job_HistoryMapper {
                        fetchType = FetchType.LAZY
                 ))
     })
+    @Override
     List<Job_History> findByRawProperties(Job_History job_History);
     
 }

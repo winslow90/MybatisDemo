@@ -16,13 +16,14 @@ import org.apache.ibatis.mapping.FetchType;
 import su90.mybatisdemo.dao.domain.Country;
 import su90.mybatisdemo.dao.domain.Location;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
+import su90.mybatisdemo.dao.base.BaseMapper;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface LocationsMapper {
+public interface LocationsMapper extends BaseMapper<Location, Long, Location>{
     static public class SqlBuilderHelper{
         public String buildFindByRawProperties(Location location){
             BEGIN();
@@ -72,6 +73,7 @@ public interface LocationsMapper {
                     )
                     )
     })
+    @Override
     List<Location> findAll();
     
     @Select("select * from locations where location_id = #{id}")
@@ -89,6 +91,7 @@ public interface LocationsMapper {
                     )
                     )
     })
+    @Override
     Location findById(Long id);
     
     @SelectProvider(type = SqlBuilderHelper.class, method = "buildFindByRawProperties")
@@ -106,6 +109,7 @@ public interface LocationsMapper {
                     )
                     )
     })
+    @Override
     List<Location> findByRawProperties(Location location);
     
 }

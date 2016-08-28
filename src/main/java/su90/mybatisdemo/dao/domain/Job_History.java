@@ -19,6 +19,39 @@ public class Job_History implements Serializable{
     public Date end_date;
     public Job job;
     public Department department;
+    
+    public static class Key{
+        
+        public Long employee_id;
+        public Date start_date;
+
+        public Key() {
+        }
+
+        public Key(Long employee_id, Date start_date) {
+            this.employee_id = employee_id;
+            this.start_date = start_date;
+        }
+        
+
+        public Long getEmployee_id() {
+            return employee_id;
+        }
+
+        public void setEmployee_id(Long employee_id) {
+            this.employee_id = employee_id;
+        }
+
+        public Date getStart_date() {
+            return start_date;
+        }
+
+        public void setStart_date(Date start_date) {
+            this.start_date = start_date;
+        }
+        
+        
+    }
 
     public Job_History() {
     }

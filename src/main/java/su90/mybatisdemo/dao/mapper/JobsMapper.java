@@ -13,13 +13,14 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import su90.mybatisdemo.dao.domain.Job;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
+import su90.mybatisdemo.dao.base.BaseMapper;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface JobsMapper {
+public interface JobsMapper extends BaseMapper<Job, String, Job>{
     
     static public class SqlBuilderHelper{
         public String buildFindByRawProperties(Job job){
@@ -54,6 +55,7 @@ public interface JobsMapper {
         @Result(property = "min_sal", column = "min_salary"),
         @Result(property = "max_sal", column = "max_salary")
     })
+    @Override
     List<Job> findAll();
     
     @Select("select * from jobs where job_id = #{id}")
@@ -63,6 +65,7 @@ public interface JobsMapper {
         @Result(property = "min_sal", column = "min_salary"),
         @Result(property = "max_sal", column = "max_salary")
     })
+    @Override
     Job findById(String id);
     
     @SelectProvider(type = SqlBuilderHelper.class,method = "buildFindByRawProperties")
@@ -72,6 +75,7 @@ public interface JobsMapper {
         @Result(property = "min_sal", column = "min_salary"),
         @Result(property = "max_sal", column = "max_salary")
     })
+    @Override
     List<Job> findByRawProperties(Job job);
     
 }
