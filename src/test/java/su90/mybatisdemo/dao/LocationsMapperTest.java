@@ -6,14 +6,13 @@
 package su90.mybatisdemo.dao;
 
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import su90.mybatisdemo.dao.domain.Location;
 import su90.mybatisdemo.dao.mapper.LocationsMapper;
 import static org.junit.Assert.*;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 import su90.mybatisdemo.dao.domain.Country;
 import su90.mybatisdemo.dao.mapper.CountriesMapper;
 
@@ -21,10 +20,10 @@ import su90.mybatisdemo.dao.mapper.CountriesMapper;
  *
  * @author superman90
  */
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest
-public class LocationsMapperTest {
-    
+public class LocationsMapperTest extends AbstractTestNGSpringContextTests{
+        
     @Autowired
     LocationsMapper locationsMapper;
     
@@ -40,7 +39,7 @@ public class LocationsMapperTest {
     }
     
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindAll(){
         List<Location> result = locationsMapper.findAll();
         assertNotNull(result);
@@ -48,7 +47,7 @@ public class LocationsMapperTest {
         assertNotNull(result.get(0).getCountry().getRegion());                
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindById(){
         Location oneLocation = locationsMapper.findById(1200L);
         assertNotNull(oneLocation);
@@ -56,7 +55,7 @@ public class LocationsMapperTest {
         assertNotNull(oneLocation.getCountry().getRegion());     
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindByRawProperties01(){
         Location locationsample = new Location("2017 Shinjuku-ku", "1689", "Tokyo", "Tokyo Prefecture", countryMapper.findById("JP"));
 //        locationsample.setAddress(null);
@@ -66,7 +65,7 @@ public class LocationsMapperTest {
         assertNotNull(result.get(0).getCountry().getRegion());        
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindByRawProperties02(){
         Location locationsample = new Location("2017 Shinjuku-ku", "1689", "Tokyo", "Tokyo Prefecture", countryMapper.findById("JP"));
         locationsample.setAddress(null);
@@ -77,6 +76,38 @@ public class LocationsMapperTest {
         assertTrue(result.size()==2);
         assertNotNull(result.get(0).getCountry());
         assertNotNull(result.get(0).getCountry().getRegion());        
+    }
+    
+    @Test(groups = {"find"})
+    public void testFindByRawType(){
+        Location sample;
+        List<Location>  result;
+        
+        sample = locationsMapper.findById(1200L);
+        sample.setId(null);
+        result = locationsMapper.findByRawType(sample);
+        assertNotNull(result);
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0).getId(), new Long(1200L));
+        
+        sample = new Location();
+        sample.setId(1200L);
+        result = locationsMapper.findByRawType(sample);
+        assertNotNull(result);
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0).getAddress(), "2017 Shinjuku-ku");
+        
+        sample = new Location();
+        result = locationsMapper.findByRawType(sample);
+        assertNotNull(result);
+        assertEquals(result.size(), 1);
+        assertNull(result.get(0));
+    }
+    
+    @Test(groups = {"find"})
+    public void testCount(){
+        Long count = locationsMapper.count();        
+        assertTrue(count>=0);
     }
     
 }

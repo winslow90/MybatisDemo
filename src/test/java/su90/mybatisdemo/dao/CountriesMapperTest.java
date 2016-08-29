@@ -6,14 +6,13 @@
 package su90.mybatisdemo.dao;
 
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import su90.mybatisdemo.dao.domain.Country;
 import su90.mybatisdemo.dao.mapper.CountriesMapper;
 import static org.junit.Assert.*;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 import su90.mybatisdemo.dao.domain.Region;
 import su90.mybatisdemo.dao.mapper.RegionsMapper;
 
@@ -21,9 +20,8 @@ import su90.mybatisdemo.dao.mapper.RegionsMapper;
  *
  * @author superman90
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class CountriesMapperTest {
+public class CountriesMapperTest extends AbstractTestNGSpringContextTests{
     
     @Autowired
     CountriesMapper countriesMapper;
@@ -39,7 +37,7 @@ public class CountriesMapperTest {
         this.countriesMapper = countriesMapper;
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindAll(){
         List<Country> result = countriesMapper.findAll();
         assertNotNull(result);
@@ -48,14 +46,14 @@ public class CountriesMapperTest {
         assertNotNull(firstchildregion);
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindById(){
         Country onecountry = countriesMapper.findById("JP");
         assertNotNull(onecountry);
         assertNotNull(onecountry.getRegion());
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindByRawProperties01(){        
         Country sampleCountry = new Country("Japan", regionsMapper.findByName("Asia").get(0));
         sampleCountry.setName(null);
@@ -64,7 +62,7 @@ public class CountriesMapperTest {
         assertNotNull(result.get(0).getRegion());
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindByRawProperties02(){        
         Country sampleCountry = new Country("Japan", regionsMapper.findByName("Asia").get(0));
         sampleCountry.setRegion(null);
@@ -73,13 +71,19 @@ public class CountriesMapperTest {
         assertNotNull(result.get(0).getRegion());
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindByRawProperties03(){        
         Country sampleCountry = new Country();
         List<Country> result = countriesMapper.findByRawProperties(sampleCountry);
         assertTrue(result.size()==1);
         assertNull(result.get(0));
 //        assertNotNull(result.get(0).getRegion());
+    }
+    
+    @Test(groups = {"find"})
+    public void testCount(){
+        Long count = countriesMapper.count();
+        assertTrue(count>0);
     }
     
 }

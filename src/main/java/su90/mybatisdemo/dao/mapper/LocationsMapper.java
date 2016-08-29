@@ -6,6 +6,7 @@
 package su90.mybatisdemo.dao.mapper;
 
 import java.util.List;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
@@ -17,6 +18,8 @@ import su90.mybatisdemo.dao.domain.Country;
 import su90.mybatisdemo.dao.domain.Location;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import su90.mybatisdemo.dao.base.BaseMapper;
+import su90.mybatisdemo.dao.ex.InvalidBeanException;
+import su90.mybatisdemo.dao.ex.KeyAbsentException;
 
 /**
  *
@@ -54,6 +57,76 @@ public interface LocationsMapper extends BaseMapper<Location, Long, Location>{
                 SELECT("dummy");
                 FROM("dual");
             }
+            return SQL();
+        }
+        public String buildFindByRawType(Location location){
+            BEGIN();
+            if (location.hasValidatedKey()||location.isValidated()){
+                SELECT("*");
+                if (location.getId()!=null){
+                    WHERE("location_id = #{id}");
+                }
+//                address!=null&&!address.isEmpty())||
+                if (location.getAddress()!=null&&!location.getAddress().isEmpty()){
+                    WHERE("street_address = #{address}");
+                }
+//                (postal_code!=null&&!postal_code.isEmpty())||
+                if (location.getPostal_code()!=null&&!location.getPostal_code().isEmpty()){
+                    WHERE("postal_code = #{postal_code}");
+                }
+//                (city!=null&&!city.isEmpty())||
+                if (location.getCity()!=null&&!location.getCity().isEmpty()){
+                    WHERE("city = #{city}");
+                }
+//                (province!=null&&province.isEmpty())||
+                if (location.getProvince()!=null&&!location.getProvince().isEmpty()){
+                    WHERE("state_province = #{province}");
+                }
+//                (country!=null&&country.getId()!=null&&!country.getId().isEmpty());
+                if (location.getCountry()!=null&&!location.getCountry().getId().isEmpty()){
+                    WHERE("country_id = #{country.id}");
+                }
+                FROM("locations");
+                
+            }else{
+                SELECT("dummy");
+                FROM("dual");
+            }
+            return SQL();
+        }
+        
+        public String buildInsertOne(Location location){
+            BEGIN();
+            if (location.isValidated()){
+                INSERT_INTO("locations");
+                
+                VALUES("location_id", "locations_seq.nextval");
+                
+//                address!=null&&!address.isEmpty())||
+                if (location.getAddress()!=null&&!location.getAddress().isEmpty()){
+                    VALUES("street_address", "#{address}");
+                }
+//                (postal_code!=null&&!postal_code.isEmpty())||
+                if (location.getPostal_code()!=null&&!location.getPostal_code().isEmpty()){
+                    VALUES("postal_code", "#{postal_code}");
+                }
+//                (city!=null&&!city.isEmpty())||
+                if (location.getCity()!=null&&!location.getCity().isEmpty()){
+                    VALUES("city", "#{city}");
+                }
+//                (province!=null&&province.isEmpty())||
+                if (location.getProvince()!=null&&!location.getProvince().isEmpty()){
+                    VALUES("state_province", "#{province}");
+                }
+//                (country!=null&&country.getId()!=null&&!country.getId().isEmpty());
+                if (location.getCountry()!=null&&!location.getCountry().getId().isEmpty()){
+                    VALUES("country_id", "#{country.id}");
+                }
+                
+            }else{
+                throw new InvalidBeanException("The Location bean to be inserted is invalid");
+            }
+            
             return SQL();
         }
     }
@@ -111,21 +184,52 @@ public interface LocationsMapper extends BaseMapper<Location, Long, Location>{
     })
     @Override
     List<Location> findByRawProperties(Location location);
-
+    
+    @SelectProvider(type = SqlBuilderHelper.class, method = "buildFindByRawType")
+    @Results( value={
+            @Result(property = "id",column = "location_id"),
+            @Result(property = "address", column = "street_address"),
+            @Result(property = "postal_code",column = "postal_code"),
+            @Result(property = "city",column = "city"),
+            @Result(property = "province",column = "state_province"),
+            @Result(property = "country",column = "country_id",
+                    javaType = Country.class,
+                    one = @One(
+                            select = "su90.mybatisdemo.dao.mapper.CountriesMapper.findById",
+                            fetchType = FetchType.LAZY
+                    )
+                    )
+    })
     @Override
     public List<Location> findByRawType(Location bean);
     
+    @Select("select count(*) from locations")
     @Override
     public Long count();
-
+    
+    @InsertProvider(type = SqlBuilderHelper.class, method = "buildInsertOne")
+    @Results( value={
+            @Result(property = "id",column = "location_id"),
+            @Result(property = "address", column = "street_address"),
+            @Result(property = "postal_code",column = "postal_code"),
+            @Result(property = "city",column = "city"),
+            @Result(property = "province",column = "state_province"),
+            @Result(property = "country",column = "country_id",
+                    javaType = Country.class,
+                    one = @One(
+                            select = "su90.mybatisdemo.dao.mapper.CountriesMapper.findById",
+                            fetchType = FetchType.LAZY
+                    )
+                    )
+    })
     @Override
-    public void deleteById(Long id);
+    public void insertOne(Location bean);
 
     @Override
     public void updateOne(Location bean);
 
     @Override
-    public void insertOne(Location bean);
+    public void deleteById(Long id);
 
     
 }

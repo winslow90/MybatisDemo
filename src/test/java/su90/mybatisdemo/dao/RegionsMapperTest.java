@@ -6,8 +6,6 @@
 package su90.mybatisdemo.dao;
 
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,7 +17,10 @@ import su90.mybatisdemo.dao.domain.Region;
 
 import static org.junit.Assert.*;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.Test;
 import su90.mybatisdemo.DaoConfig;
 
 /**
@@ -47,9 +48,10 @@ import su90.mybatisdemo.DaoConfig;
    oracle.datasource.password: mybatisdemopw
  * @author superman90
  */
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
+//AbstractTransactionalTestNGSpringContextTests        not working?????????  use AbstractTestNGSpringContextTests and @Transactional instead
 @SpringBootTest
-public class RegionsMapperTest {
+public class RegionsMapperTest extends AbstractTestNGSpringContextTests{
     
     @Autowired
     RegionsMapper regionsMapper;
@@ -58,20 +60,23 @@ public class RegionsMapperTest {
         this.regionsMapper = regionsMapper;
     }
     
-    @Test
+    @Test(groups = {"find"})
+    @Transactional
     public void testFindAll(){
         List<Region> result = regionsMapper.findAll();
         assertNotNull(result);
     }
     
-    @Test
+    @Test(groups = {"find"})
+    @Transactional
     public void testFindById(){
         Region result = this.regionsMapper.findById(1L);
         assertEquals(result.getId(), new Long(1L));
         assertEquals(result.getName(), "Europe"); 
     }
     
-    @Test
+    @Test(groups = {"find"})
+    @Transactional
     public void testFindByRawProperties(){
         List<Region> result = this.regionsMapper.findByRawProperties(new Region("americas"));
         assertNotNull(result);
@@ -80,18 +85,19 @@ public class RegionsMapperTest {
         assertEquals(result.get(0).getId(), new Long(2L));
     }
     
-    @Test
-    public void testInsertUpdateDelete(){
-        testInsertOneRegions();
-        testInsertAnotherRegions();
-        testUpdateOneRegion();
-        testUpdateOneRegionwithEmpty();
-        testUpdateOneRegionwithNull();
-        testDeletebyId();
-        testDeletebyRegionId();
-    }
-    
 //    @Test
+//    public void testInsertUpdateDelete(){
+//        testInsertOneRegions();
+//        testInsertAnotherRegions();
+//        testUpdateOneRegion();
+//        testUpdateOneRegionwithEmpty();
+//        testUpdateOneRegionwithNull();
+//        testDeletebyId();
+//        testDeletebyRegionId();
+//    }
+    
+    @Test(groups = {"insert"})
+    @Transactional
     public void testInsertOneRegions(){
         Region newregion = new Region(Long.MIN_VALUE, "Pacific");
         regionsMapper.insertOne(newregion);
@@ -103,7 +109,8 @@ public class RegionsMapperTest {
         assertEquals(result.get(0).getName(), "Pacific");
     }
     
-//    @Test
+    @Test(groups = {"insert"})
+    @Transactional
     public void testInsertAnotherRegions(){
         Region newregion = new Region(Long.MIN_VALUE, "Artic");
         regionsMapper.insertOne(newregion);
@@ -115,28 +122,32 @@ public class RegionsMapperTest {
         assertEquals(result.get(0).getName(), "Artic");
     }
     
-//    @Test
+    @Test(groups = {"update"},dependsOnGroups = {"insert"})
+    @Transactional
     public void testUpdateOneRegion(){
         Region pacificregion = regionsMapper.findByName("Pacific").get(0);
         pacificregion.setName("Pacific01");
         regionsMapper.updateOne(pacificregion);
     }
     
-//    @Test
+    @Test(groups = {"update"},dependsOnGroups = {"insert"}, dependsOnMethods = {"testUpdateOneRegion"})
+    @Transactional
     public void testUpdateOneRegionwithEmpty(){
         Region pacificregion = regionsMapper.findByName("Pacific01").get(0);
         pacificregion.setName("");
         regionsMapper.updateOne(pacificregion);
     }
     
-//    @Test
+    @Test(groups = {"update"},dependsOnGroups = {"insert"}, dependsOnMethods = {"testUpdateOneRegion"})
+    @Transactional
     public void testUpdateOneRegionwithNull(){
         Region pacificregion = regionsMapper.findByName("Pacific01").get(0);
         pacificregion.setName(null);
         regionsMapper.updateOne(pacificregion);
     }
     
-//    @Test
+    @Test(groups = {"delete"},dependsOnGroups = {"update","insert"} )
+    @Transactional
     public void testDeletebyId(){
         Region tobedeletedregion = regionsMapper.findByName("Pacific01").get(0);
         regionsMapper.deleteById(tobedeletedregion.getId());
@@ -144,20 +155,23 @@ public class RegionsMapperTest {
     }
     
     
-//    @Test
+    @Test(groups = {"delete"},dependsOnGroups = {"update","insert"})
+    @Transactional
     public void testDeletebyRegionId(){
         Region tobedeletedregion = regionsMapper.findByName("artic").get(0);
         regionsMapper.deleteByRegionId(tobedeletedregion);
         assertEquals(regionsMapper.findByName("artic").size(), 0);
     } 
     
-    @Test
+    @Test (groups = {"find"})
+    @Transactional
     public void testCount(){
         Long total = regionsMapper.count();
         assertTrue(total > 0);
     }
     
-    @Test
+    @Test(groups = {"find"})
+    @Transactional
     public void testFindByRawType(){
         Region search;
         List<Region> result;
