@@ -14,9 +14,10 @@ import java.util.List;
  * @param <K>   Key for the Type
  * @param <Q>   Query Bean for the Type which might be the same as Type
  */
-public interface BaseMapper<T,K,Q> {
+public interface BaseMapper<T extends BaseDomain<K>,K,Q> {
     public List<T> findAll();
     public T findById(K id);
+    public List<T> findByRawType(T bean);
     public List<T> findByRawProperties(Q bean);
     public void insertOne(T bean);
     public void updateOne(T bean);

@@ -6,12 +6,13 @@
 package su90.mybatisdemo.dao.domain;
 
 import java.io.Serializable;
+import su90.mybatisdemo.dao.base.BaseDomain;
 
 /**
  *
  * @author superman90
  */
-public class Job implements Serializable{
+public class Job implements BaseDomain<String>, Serializable{
         String id;
         String title;
         Long min_sal;
@@ -76,5 +77,20 @@ public class Job implements Serializable{
                 (min_sal!=null&&min_sal>=0&&(max_sal==null||max_sal>=min_sal))||
                 (max_sal!=null&&max_sal>=0&&(min_sal==null||max_sal>=min_sal))
         ;
+    }
+
+    @Override
+    public String getKey() {
+        return this.id;
+    }
+
+    @Override
+    public Boolean hasValidatedKey() {
+        return this.id!=null;
+    }
+
+    @Override
+    public void setKey(String key) {
+        this.id = key;
     }
 }

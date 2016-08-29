@@ -6,12 +6,13 @@
 package su90.mybatisdemo.dao.domain;
 
 import java.io.Serializable;
+import su90.mybatisdemo.dao.base.BaseDomain;
 
 /**
  *
  * @author superman90
  */
-public class Country implements Serializable{
+public class Country implements BaseDomain<String>, Serializable{
 
     String id;
     String name;
@@ -72,5 +73,20 @@ public class Country implements Serializable{
     
     public Boolean isValidated(){
         return (name!=null&&!name.isEmpty())||(region!=null&&region.getId()!=null);
+    }
+
+    @Override
+    public String getKey() {
+        return this.id;
+    }
+
+    @Override
+    public Boolean hasValidatedKey() {
+        return this.id!=null;
+    }
+
+    @Override
+    public void setKey(String key) {
+        this.id=key;
     }
 }

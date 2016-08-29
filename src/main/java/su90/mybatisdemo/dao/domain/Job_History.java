@@ -7,12 +7,13 @@ package su90.mybatisdemo.dao.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import su90.mybatisdemo.dao.base.BaseDomain;
 
 /**
  *
  * @author superman90
  */
-public class Job_History implements Serializable{
+public class Job_History implements BaseDomain<Job_History.Key>, Serializable{
     
     public Employee employee;
     public Date start_date;
@@ -20,26 +21,27 @@ public class Job_History implements Serializable{
     public Job job;
     public Department department;
     
+    private Job_History.Key thekey=null;
+
     public static class Key{
         
-        public Long employee_id;
+        public Employee employee;
         public Date start_date;
 
         public Key() {
         }
 
-        public Key(Long employee_id, Date start_date) {
-            this.employee_id = employee_id;
+        public Key(Employee employee, Date start_date) {
+            this.employee = employee;
             this.start_date = start_date;
         }
         
-
-        public Long getEmployee_id() {
-            return employee_id;
+        public Employee getEmployee() {
+            return employee;
         }
 
-        public void setEmployee_id(Long employee_id) {
-            this.employee_id = employee_id;
+        public void setEmployee(Employee employee) {
+            this.employee = employee;
         }
 
         public Date getStart_date() {
@@ -49,7 +51,6 @@ public class Job_History implements Serializable{
         public void setStart_date(Date start_date) {
             this.start_date = start_date;
         }
-        
         
     }
 
@@ -126,6 +127,24 @@ public class Job_History implements Serializable{
                 (end_date!=null)||
                 (job!=null&&job.getId()!=null)||
                 (department!=null&&department.getId()!=null);
+    }
+    
+    @Override
+    public Key getKey() {
+        return thekey==null?
+                thekey = new Job_History.Key(this.employee,this.start_date):
+                thekey;
+    }
+    
+    @Override
+    public Boolean hasValidatedKey() {
+        return this.employee!=null&&this.employee.getId()!=null&&this.start_date!=null;
+    }
+    
+    @Override
+    public void setKey(Key key) {
+        this.employee=key.getEmployee();
+        this.start_date=key.getStart_date();
     }
     
 }

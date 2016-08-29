@@ -6,12 +6,13 @@
 package su90.mybatisdemo.dao.domain;
 
 import java.io.Serializable;
+import su90.mybatisdemo.dao.base.BaseDomain;
 
 /**
  *
  * @author superman90
  */
-public class Department implements Serializable{
+public class Department implements BaseDomain<Long> ,Serializable{
     
     Long id;
     String name;
@@ -73,5 +74,20 @@ public class Department implements Serializable{
     
     public Boolean isValidated(){
         throw new UnsupportedOperationException("TODO: unfinished yet");
+    }
+
+    @Override
+    public Long getKey() {
+        return this.id;
+    }
+
+    @Override
+    public Boolean hasValidatedKey() {
+        return this.id!=null;
+    }
+
+    @Override
+    public void setKey(Long key) {
+        this.id=key;
     }
 }

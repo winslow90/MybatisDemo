@@ -242,6 +242,20 @@ public interface EmployeesMapper extends BaseMapper<Employee, Long, EmployeesMap
     })
     @Override
     List<Employee> findByRawProperties(EmployeeQuery eq);
+
+    @Override
+    public List<Employee> findByRawType(Employee bean);
     
-    
+    @Override
+    public Long count();
+
+    @Override
+    public void deleteById(Long id);
+
+    @Override
+    public void updateOne(Employee bean);
+
+    @Override
+    public void insertOne(Employee bean);
+
 }

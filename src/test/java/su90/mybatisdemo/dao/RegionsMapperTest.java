@@ -157,4 +157,27 @@ public class RegionsMapperTest {
         assertTrue(total > 0);
     }
     
+    @Test
+    public void testFindByRawType(){
+        Region search;
+        List<Region> result;
+        
+        search= new Region("Asia");        
+        result = regionsMapper.findByRawType(search);        
+        assertEquals(result.size(),1);
+        assertEquals(result.get(0).getId(), new Long(3L));
+        
+        search= new Region();
+        search.setId(3L);
+        result = regionsMapper.findByRawType(search);
+        assertEquals(result.size(),1);
+        assertEquals(result.get(0).getName(), "Asia");
+        
+        search= new Region();
+        result = regionsMapper.findByRawType(search);
+        assertEquals(result.size(),1);
+        assertNull(result.get(0));
+        
+    }
+    
 }

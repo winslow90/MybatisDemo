@@ -7,13 +7,17 @@ package su90.mybatisdemo.bo.base;
 
 import java.util.ArrayList;
 import java.util.List;
+import su90.mybatisdemo.dao.base.BaseDomain;
 import su90.mybatisdemo.dao.base.BaseMapper;
 
 /**
  *
  * @author superman90
+ * @param <T>   type
+ * @param <K>   key
+ * @param <Q>   querybean
  */
-public abstract class BaseServiceImpl<T, K, Q> implements BaseService<T, K, Q>{
+public abstract class BaseServiceImpl<T extends BaseDomain<K>, K, Q> implements BaseService<T, K, Q>{
     
     
     public abstract BaseMapper<T, K, Q> getBaseMapper();
@@ -33,8 +37,25 @@ public abstract class BaseServiceImpl<T, K, Q> implements BaseService<T, K, Q>{
     }
 
     @Override
+    public List<T> getEntriesByBean(Q bean){
+        return getBaseMapper().findByRawProperties(bean);
+    }
+
+    @Override
     public void saveEntry(T t) {
-        getBaseMapper().insertOne(t);
+        List<T> potentialExisted = getBaseMapper().findByRawType(t);
+        
+        if (potentialExisted.size()==1){
+            if (potentialExisted.get(0)==null){
+                getBaseMapper().insertOne(t);
+            }else{
+                t.setKey(potentialExisted.get(0).getKey());
+                getBaseMapper().updateOne(t);
+            }
+        }else{
+            throw new UnsupportedOperationException("//TODO unfinished, need to define custome expception");
+        }
+        
     }
 
     @Override

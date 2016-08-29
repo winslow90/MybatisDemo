@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import su90.mybatisdemo.dao.base.BaseMapper;
@@ -39,7 +40,25 @@ public interface RegionsMapper extends BaseMapper<Region, Long, Region>{
                 FROM("dual");
             }
             return SQL();
-        }        
+        }
+        public String findByRawType(Region region){
+            BEGIN();
+            if (region.isValidated()||region.hasValidatedKey()){
+                SELECT("*");
+                FROM("regions");
+                if (region.getId()!=null){
+                    WHERE("region_id = #{id}");
+                }
+                if (region.getName()!=null){
+                    WHERE("region_name = #{name}");
+                }
+                
+            }else{
+                SELECT("dummy");
+                FROM("dual");
+            }
+            return SQL();
+        }
     }
     
 //    @Select("select * from regions where region_id=#{region_id}")
@@ -102,5 +121,13 @@ public interface RegionsMapper extends BaseMapper<Region, Long, Region>{
     @Select("select count(*) from regions")
     @Override
     Long count();
+
+    @SelectProvider(type = SqlBuilderHelper.class, method ="findByRawType")
+    @Results(value={
+            @Result(property = "id",column = "region_id"),
+            @Result(property = "name",column = "region_name")
+    })
+    @Override
+    public List<Region> findByRawType(Region bean);
     
 }

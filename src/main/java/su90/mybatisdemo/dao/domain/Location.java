@@ -6,12 +6,13 @@
 package su90.mybatisdemo.dao.domain;
 
 import java.io.Serializable;
+import su90.mybatisdemo.dao.base.BaseDomain;
 
 /**
  *
  * @author superman90
  */
-public class Location implements Serializable{
+public class Location implements BaseDomain<Long>,Serializable{
     
     Long id;
     String address;
@@ -114,6 +115,21 @@ public class Location implements Serializable{
                 (city!=null&&!city.isEmpty())||
                 (province!=null&&province.isEmpty())||
                 (country!=null&&country.getId()!=null&&!country.getId().isEmpty());
+    }
+
+    @Override
+    public Long getKey() {
+        return this.id;
+    }
+
+    @Override
+    public Boolean hasValidatedKey() {
+        return this.id!=null;
+    }
+
+    @Override
+    public void setKey(Long key) {
+        this.id=key;
     }
     
 }

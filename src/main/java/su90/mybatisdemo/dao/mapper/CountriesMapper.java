@@ -91,4 +91,19 @@ public interface CountriesMapper extends BaseMapper<Country, String, Country>{
 //    @Insert("")
 //    void insertOneCountry(Country country);
     
+    @Override
+    public List<Country> findByRawType(Country bean);
+
+    @Override
+    public Long count();
+
+    @Override
+    public void deleteById(String id);
+
+    @Override
+    public void updateOne(Country bean);
+
+    @Override
+    public void insertOne(Country bean);
+    
 }

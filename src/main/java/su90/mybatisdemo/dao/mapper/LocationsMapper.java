@@ -111,5 +111,21 @@ public interface LocationsMapper extends BaseMapper<Location, Long, Location>{
     })
     @Override
     List<Location> findByRawProperties(Location location);
+
+    @Override
+    public List<Location> findByRawType(Location bean);
+    
+    @Override
+    public Long count();
+
+    @Override
+    public void deleteById(Long id);
+
+    @Override
+    public void updateOne(Location bean);
+
+    @Override
+    public void insertOne(Location bean);
+
     
 }

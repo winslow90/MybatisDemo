@@ -60,5 +60,23 @@ public interface DepartmentsMapper extends BaseMapper<Department, Long, Departme
     })   
     @Override
     Department findById(Long id);
-    
+
+    @Override
+    public List<Department> findByRawType(Department bean);
+        
+    @Override
+    public Long count();
+
+    @Override
+    public void deleteById(Long id);
+
+    @Override
+    public void updateOne(Department bean);
+
+    @Override
+    public void insertOne(Department bean);
+
+    @Override
+    public List<Department> findByRawProperties(Department bean);
+
 }

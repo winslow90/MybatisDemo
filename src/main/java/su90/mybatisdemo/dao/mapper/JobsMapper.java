@@ -75,7 +75,22 @@ public interface JobsMapper extends BaseMapper<Job, String, Job>{
         @Result(property = "min_sal", column = "min_salary"),
         @Result(property = "max_sal", column = "max_salary")
     })
+    
     @Override
     List<Job> findByRawProperties(Job job);
+
+    @Override
+    public List<Job> findByRawType(Job bean);    
     
+    @Override
+    public Long count();
+
+    @Override
+    public void deleteById(String id);
+
+    @Override
+    public void updateOne(Job bean);
+
+    @Override
+    public void insertOne(Job bean);
 }

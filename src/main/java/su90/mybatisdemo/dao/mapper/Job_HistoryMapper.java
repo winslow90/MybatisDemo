@@ -84,7 +84,7 @@ public interface Job_HistoryMapper extends BaseMapper<Job_History, Job_History.K
     @Override
     List<Job_History> findAll();
     
-    @Select("select * from job_history where employee_id = #{employee_id} and start_date = #{start_date}")
+    @Select("select * from job_history where employee_id = #{employee.id} and start_date = #{start_date}")
     @Results(value = {
         @Result(property = "employee", column = "employee_id",
                 one = @One(
@@ -177,5 +177,20 @@ public interface Job_HistoryMapper extends BaseMapper<Job_History, Job_History.K
     })
     @Override
     List<Job_History> findByRawProperties(Job_History job_History);
+
+    @Override
+    public List<Job_History> findByRawType(Job_History bean);
+        
+    @Override
+    public Long count();
+
+    @Override
+    public void deleteById(Job_History.Key id);
+
+    @Override
+    public void updateOne(Job_History bean);
+
+    @Override
+    public void insertOne(Job_History bean);    
     
 }

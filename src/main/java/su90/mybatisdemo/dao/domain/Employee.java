@@ -7,12 +7,13 @@ package su90.mybatisdemo.dao.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import su90.mybatisdemo.dao.base.BaseDomain;
 
 /**
  *
  * @author superman90
  */
-public class Employee implements Serializable{
+public class Employee implements BaseDomain<Long> ,Serializable{
 
     public Long id;
     public String fname;
@@ -163,5 +164,20 @@ public class Employee implements Serializable{
                 (comm!=null&&comm>=0)||
                 (manager!=null&&manager.getId()!=null)||
                 (department!=null&&department.getId()!=null);
+    }
+
+    @Override
+    public Long getKey() {
+        return this.id;
+    }
+
+    @Override
+    public Boolean hasValidatedKey() {
+        return this.id!=null;
+    }
+
+    @Override
+    public void setKey(Long key) {
+        this.id = key;
     }
 }
