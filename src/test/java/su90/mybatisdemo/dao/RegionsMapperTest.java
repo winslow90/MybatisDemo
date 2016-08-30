@@ -15,7 +15,7 @@ import su90.mybatisdemo.Application;
 import su90.mybatisdemo.dao.mapper.RegionsMapper;
 import su90.mybatisdemo.dao.domain.Region;
 
-import static org.junit.Assert.*;
+import static org.testng.Assert.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;

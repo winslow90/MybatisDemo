@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import su90.mybatisdemo.dao.domain.Country;
 import su90.mybatisdemo.dao.mapper.CountriesMapper;
-import static org.junit.Assert.*;
+import static org.testng.Assert.*;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;

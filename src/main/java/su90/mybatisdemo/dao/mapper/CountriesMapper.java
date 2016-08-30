@@ -8,6 +8,7 @@ package su90.mybatisdemo.dao.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Param;
@@ -15,6 +16,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import org.apache.ibatis.mapping.FetchType;
 import su90.mybatisdemo.dao.base.BaseMapper;
@@ -30,7 +32,7 @@ import su90.mybatisdemo.dao.ex.KeyAbsentException;
 @Mapper
 public interface CountriesMapper extends BaseMapper<Country, String, Country>{
     
-    static public class SqlBuilderHelper{
+    static class SqlBuilderHelper{
         public String buildFindByRawProperties(Country country){
             BEGIN();
             if (country.isValidated()){
@@ -176,11 +178,11 @@ public interface CountriesMapper extends BaseMapper<Country, String, Country>{
     @Override
     public List<Country> findByRawType(Country country);
     
-    @SelectProvider(type = SqlBuilderHelper.class, method = "buildInsertOne")
+    @InsertProvider(type = SqlBuilderHelper.class, method = "buildInsertOne")
     @Override
     public void insertOne(Country country);
     
-    @SelectProvider(type = SqlBuilderHelper.class, method = "buildUpdateOne")
+    @UpdateProvider(type = SqlBuilderHelper.class, method = "buildUpdateOne")
     @Override
     public void updateOne(Country country);
     

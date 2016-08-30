@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import su90.mybatisdemo.dao.domain.Location;
 import su90.mybatisdemo.dao.mapper.LocationsMapper;
-import static org.junit.Assert.*;
+import static org.testng.Assert.*;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 import su90.mybatisdemo.dao.domain.Country;
@@ -110,4 +110,38 @@ public class LocationsMapperTest extends AbstractTestNGSpringContextTests{
         assertTrue(count>=0);
     }
     
+    @Test(groups = {"insert"})
+    public void testInsertOne(){
+        Country country = countryMapper.findById("US");
+        Location location = new Location("718 William St", "07029", "Harrison", "NJ", country);
+        locationsMapper.insertOne(location);
+        Location search = new Location();
+        search.setPostal_code("07029");
+        List<Location> result = locationsMapper.findByRawType(search);
+        assertTrue(result.size()>0);
+    }
+    
+    @Test(groups = {"updates"} , dependsOnGroups = {"insert"})
+    public void testUpdateOne(){
+        Location search = new Location();
+        search.setPostal_code("07029");
+        Location tobeupdated = locationsMapper.findByRawType(search).get(0);
+        
+        tobeupdated.setCity("Kearny");
+        locationsMapper.updateOne(tobeupdated);
+        
+        Location updated = locationsMapper.findById(tobeupdated.getId());
+        assertEquals(updated.getCity(), "Kearny");
+    }
+    
+    @Test(groups = {"delete"})
+    public void testDelete(){
+        Location search = new Location();
+        search.setPostal_code("07029");
+        Location tobedeleted = locationsMapper.findByRawType(search).get(0);
+        
+        locationsMapper.deleteById(tobedeleted.getId());
+        
+        assertNull(locationsMapper.findById(tobedeleted.getId()));
+    }
 }
