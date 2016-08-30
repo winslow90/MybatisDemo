@@ -6,9 +6,11 @@
 package su90.mybatisdemo.dao.mapper;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -18,6 +20,8 @@ import org.apache.ibatis.mapping.FetchType;
 import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.domain.Country;
 import su90.mybatisdemo.dao.domain.Region;
+import su90.mybatisdemo.dao.ex.InvalidBeanException;
+import su90.mybatisdemo.dao.ex.KeyAbsentException;
 
 /**
  *
@@ -42,6 +46,69 @@ public interface CountriesMapper extends BaseMapper<Country, String, Country>{
                 SELECT("dummy");
                 FROM("dual");
             }
+            return SQL();
+        }
+        
+        public String buildFindByRawType(Country country){
+            BEGIN();
+            if (country.hasValidatedKey()||country.isValidated()){
+                SELECT("*");
+                FROM("countries");
+                if (country.getId()!=null){
+                    WHERE("country_id = #{id}");
+                }
+                if (country.getName()!=null&&!country.getName().isEmpty()){
+                    WHERE("country_name = #{name}");
+                }
+                if (country.getRegion()!=null&&country.getRegion().getId()!=null){
+                    WHERE("region_id = #{region.id}");
+                }
+            }else{
+                SELECT("dummy");
+                FROM("dual");
+            }
+            return SQL();
+        }
+        
+        public String buildInsertOne(Country country){
+            BEGIN();
+            if (country.hasValidatedKey()&&country.isValidated()){
+                INSERT_INTO("countries");
+                VALUES("country_id", "#{id}");
+                if (country.getName()!=null&&!country.getName().isEmpty()){
+                    VALUES("country_name", "#{name}");
+                }
+                if (country.getRegion()!=null&&country.getRegion().getId()!=null){
+                    VALUES("region_id", "#{region.id}");
+                }                
+            }else{
+                if (country.hasValidatedKey()){
+                    throw new InvalidBeanException("The Country bean to be inserted is invalid");
+                }else{
+                    throw new KeyAbsentException("The Country bean has to have an bean");
+                }
+            }
+            return SQL();
+        }
+        
+        public String buildUpdateOne(Country country){
+            BEGIN();
+            if (country.hasValidatedKey()&&country.isValidated()){
+                UPDATE("countries");
+                if (country.getName()!=null&&!country.getName().isEmpty()){
+                    SET("country_name=#{name}");
+                }
+                if (country.getRegion()!=null&&country.getRegion().getId()!=null){
+                    SET("region_id=#{region.id}");
+                }
+                WHERE("country_id = #{id}");
+            }else{
+                if (country.hasValidatedKey()){
+                    throw new InvalidBeanException("The Country bean to be inserted is invalid");
+                }else{
+                    throw new KeyAbsentException("The Country bean has to have an bean");
+                }
+            }            
             return SQL();
         }
     }
@@ -95,17 +162,30 @@ public interface CountriesMapper extends BaseMapper<Country, String, Country>{
     @Override
     public Long count();
     
+    @SelectProvider(type = SqlBuilderHelper.class, method = "buildFindByRawType")
+    @Results(value ={
+        @Result(property = "id",column = "country_id"),
+        @Result(property = "name",column = "country_name"),
+        @Result(property = "region",column = "region_id",
+                javaType = Region.class,
+                one = @One(
+                        select = "su90.mybatisdemo.dao.mapper.RegionsMapper.findById",
+                        fetchType = FetchType.LAZY
+                ))
+    })
+    @Override
+    public List<Country> findByRawType(Country country);
     
+    @SelectProvider(type = SqlBuilderHelper.class, method = "buildInsertOne")
     @Override
-    public List<Country> findByRawType(Country bean);
-
-    @Override
-    public void insertOne(Country bean);
+    public void insertOne(Country country);
     
+    @SelectProvider(type = SqlBuilderHelper.class, method = "buildUpdateOne")
     @Override
-    public void deleteById(String id);
-
+    public void updateOne(Country country);
+    
+    @Delete("delete from countries where country_id = #{id}")
     @Override
-    public void updateOne(Country bean);
+    public void deleteById(@Param("id") String id);
     
 }
