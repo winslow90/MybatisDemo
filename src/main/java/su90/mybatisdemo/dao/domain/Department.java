@@ -73,7 +73,10 @@ public class Department implements BaseDomain<Long> ,Serializable{
     }
     
     public Boolean isValidated(){
-        throw new UnsupportedOperationException("TODO: unfinished yet");
+        return 
+                (name!=null&&!name.isEmpty())||
+                (manager!=null&&manager.getId()!=null)||
+                (location!=null&&location.getId()!=null);
     }
 
     @Override

@@ -134,7 +134,7 @@ public class LocationsMapperTest extends AbstractTestNGSpringContextTests{
         assertEquals(updated.getCity(), "Kearny");
     }
     
-    @Test(groups = {"delete"})
+    @Test(groups = {"delete"}, dependsOnGroups = {"updates","insert"})
     public void testDelete(){
         Location search = new Location();
         search.setPostal_code("07029");
