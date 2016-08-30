@@ -6,22 +6,20 @@
 package su90.mybatisdemo.dao;
 
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import su90.mybatisdemo.dao.domain.Job;
 import su90.mybatisdemo.dao.mapper.JobsMapper;
-import static org.junit.Assert.*;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
+import static org.testng.Assert.*;
 
 /**
  *
  * @author superman90
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class JobsMapperTest {
+public class JobsMapperTest extends AbstractTestNGSpringContextTests{
     
     @Autowired
     JobsMapper jobsMapper;
@@ -30,13 +28,13 @@ public class JobsMapperTest {
         this.jobsMapper = jobsMapper;
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindAll(){
         List<Job> result = jobsMapper.findAll();
         assertNotNull(result);
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindById(){
         Job result = jobsMapper.findById("SA_MAN");
         assertNotNull(result);        
@@ -45,7 +43,7 @@ public class JobsMapperTest {
         assertEquals(result.getMin_sal(), new Long(10000L));
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindByRawProperties01(){
         Job sampleJob = new Job("Public Relations Representative", 4500L, 10500L);
         List<Job> result = jobsMapper.findByRawProperties(sampleJob);
@@ -53,7 +51,7 @@ public class JobsMapperTest {
         assertEquals(result.get(0).getId(), "PR_REP");
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindByRawProperties02(){
         Job sampleJob = new Job("Public Relations Representative", 2008L, 40000L);
         sampleJob.setTitle(null);
@@ -62,7 +60,7 @@ public class JobsMapperTest {
         assertTrue(result.size()==19);
     }
     
-    @Test
+    @Test(groups = {"find"})
     public void testFindByRawProperties03(){
         Job sampleJob = new Job("Public Relations Representative", 40000L, 2008L);
         sampleJob.setTitle(null);
@@ -70,5 +68,40 @@ public class JobsMapperTest {
         List<Job> result = jobsMapper.findByRawProperties(sampleJob);
         assertEquals(result.size(), 1);
         assertEquals(result.get(0), null);
+    }
+    
+    @Test(groups = {"find"})
+    public void testFindByRawType(){
+        Job sampleJob = new Job("Public Relations Representative", 4500L, 10500L);
+        List<Job> result = jobsMapper.findByRawType(sampleJob);
+        assertTrue(result.size()==1);
+        assertEquals(result.get(0).getId(), "PR_REP");
+    }
+    
+    @Test(groups = {"find"})
+    public void testCount(){
+        Long result = jobsMapper.count();
+        assertTrue(result>0);
+    }
+    
+    @Test(groups = {"insert"})
+    public void testInsert(){
+        Job tobeinserted = new Job("DUMMY", "Dummy Job Titile", 0L, 0L);
+        jobsMapper.insertOne(tobeinserted);
+        assertNotNull(jobsMapper.findById("DUMMY"));
+    }
+    
+    @Test(groups = {"update"}, dependsOnGroups = {"insert"})
+    public void testUpdate(){
+        Job tobeupdated = jobsMapper.findById("DUMMY");
+        tobeupdated.setTitle("Goddamn Dummy Job Titile");
+        jobsMapper.updateOne(tobeupdated);
+        assertEquals(jobsMapper.findById("DUMMY").getTitle(), "Goddamn Dummy Job Titile");
+    }
+    
+    @Test(groups = {"delete"}, dependsOnGroups = {"update","insert"})
+    public void testDelete(){
+        jobsMapper.deleteById("DUMMY");
+        assertNull(jobsMapper.findById("DUMMY"));
     }
 }
