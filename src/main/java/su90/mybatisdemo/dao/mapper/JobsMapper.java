@@ -175,6 +175,10 @@ public interface JobsMapper extends BaseMapper<Job, String, Job>{
     @Override
     public Long count();
 
+    /**
+     * the bean to be inserted has to be both keyowing and valid
+     * @param bean 
+     */
     @InsertProvider(type = SqlBuilderHelper.class, method = "buildInsertOne")
     @Override
     public void insertOne(Job bean);

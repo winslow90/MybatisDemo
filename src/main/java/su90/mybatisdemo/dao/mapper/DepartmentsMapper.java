@@ -104,7 +104,7 @@ public interface DepartmentsMapper extends BaseMapper<Department, Long, Departme
         
         public String buildUpdateOne(Department d){
             BEGIN();
-            if (d.hasValidatedKey()){
+            if (d.hasValidatedKey()&&d.isValidated()){
                 UPDATE("departments");
                 if (d.getName()!=null&&!d.getName().isEmpty()){
                     SET("department_name = #{name}");

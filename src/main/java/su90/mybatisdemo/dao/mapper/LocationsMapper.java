@@ -135,7 +135,7 @@ public interface LocationsMapper extends BaseMapper<Location, Long, Location>{
         
         public String buildUpdateOne(Location location){
             BEGIN();
-            if (location.hasValidatedKey()){
+            if (location.hasValidatedKey()&&location.isValidated()){
                 
                 UPDATE("locations");
                 
