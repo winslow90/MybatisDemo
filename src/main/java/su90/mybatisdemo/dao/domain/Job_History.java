@@ -5,6 +5,7 @@
  */
 package su90.mybatisdemo.dao.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Date;
 import su90.mybatisdemo.dao.base.BaseDomain;
@@ -120,6 +121,7 @@ public class Job_History implements BaseDomain<Job_History.Key>, Serializable{
                 ", department_id=" + department.getId() + '}';
     }
     
+    @JsonIgnore
     public Boolean isValidated(){
         return 
                 (employee!=null&& employee.getId()!=null)||
@@ -130,6 +132,7 @@ public class Job_History implements BaseDomain<Job_History.Key>, Serializable{
     }
     
     @Override
+    @JsonIgnore
     public Key getKey() {
         return thekey==null?
                 thekey = new Job_History.Key(this.employee,this.start_date):
@@ -142,6 +145,7 @@ public class Job_History implements BaseDomain<Job_History.Key>, Serializable{
     }
     
     @Override
+    @JsonIgnore
     public void setKey(Key key) {
         this.employee=key.getEmployee();
         this.start_date=key.getStart_date();

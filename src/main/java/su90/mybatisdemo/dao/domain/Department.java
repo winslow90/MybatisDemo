@@ -5,6 +5,7 @@
  */
 package su90.mybatisdemo.dao.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import su90.mybatisdemo.dao.base.BaseDomain;
 
@@ -72,6 +73,7 @@ public class Department implements BaseDomain<Long> ,Serializable{
         return "Department{" + "id=" + id + ", name=" + name + ", manager_id=" + manager.getId() + ", location_id=" + location.getId() + '}';
     }
     
+    @JsonIgnore
     public Boolean isValidated(){
         return 
                 (name!=null&&!name.isEmpty())||
@@ -80,6 +82,7 @@ public class Department implements BaseDomain<Long> ,Serializable{
     }
 
     @Override
+    @JsonIgnore
     public Long getKey() {
         return this.id;
     }
@@ -90,6 +93,7 @@ public class Department implements BaseDomain<Long> ,Serializable{
     }
 
     @Override
+    @JsonIgnore
     public void setKey(Long key) {
         this.id=key;
     }

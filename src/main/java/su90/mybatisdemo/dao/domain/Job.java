@@ -5,6 +5,7 @@
  */
 package su90.mybatisdemo.dao.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import su90.mybatisdemo.dao.base.BaseDomain;
 
@@ -71,6 +72,7 @@ public class Job implements BaseDomain<String>, Serializable{
         return "Job{" + "id=" + id + ", title=" + title + ", min_sal=" + min_sal + ", max_sal=" + max_sal + '}';
     }        
         
+    @JsonIgnore
     public Boolean isValidated(){
         return 
                 (title!=null&&!title.isEmpty())||
@@ -80,6 +82,7 @@ public class Job implements BaseDomain<String>, Serializable{
     }
 
     @Override
+    @JsonIgnore
     public String getKey() {
         return this.id;
     }
@@ -90,6 +93,7 @@ public class Job implements BaseDomain<String>, Serializable{
     }
 
     @Override
+    @JsonIgnore
     public void setKey(String key) {
         this.id = key;
     }

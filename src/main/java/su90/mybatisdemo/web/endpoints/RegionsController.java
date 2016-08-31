@@ -5,6 +5,9 @@
  */
 package su90.mybatisdemo.web.endpoints;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,12 +33,19 @@ public class RegionsController {
     @Autowired
     RegionsService regionsService;
     
-    @RequestMapping(value = "/getall", method = RequestMethod.GET)
+    @RequestMapping(value = "/getall", method = RequestMethod.GET, 
+            produces = {"application/json"})
+    @ApiOperation(value = "Find all regions",
+            httpMethod = "GET"
+            )
+    
     public List<Region> getAllRegions(){
         return regionsService.getEntries();
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET,
+            produces = {"application/json"})
+    @ApiOperation(value = "findspecify region")
     public Region getOneRegion(@PathVariable Long id){
         return regionsService.getEntryById(id);
     }

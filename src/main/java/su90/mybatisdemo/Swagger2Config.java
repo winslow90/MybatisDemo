@@ -45,6 +45,9 @@ public class Swagger2Config {
 //    use the annotation below to annotate the endpoint
 //    @ApiOperation
 //    @ApiImplicitParam
+//    @ApiImplicitParams(@ApiImplicitParam(
+//            
+//    ))
 //    api explain page
 //    http://localhost:8080/swagger-ui.html
     
