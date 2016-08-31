@@ -9,38 +9,61 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import su90.mybatisdemo.dao.domain.Employee;
 import su90.mybatisdemo.dao.mapper.EmployeesMapper;
-import static org.junit.Assert.*;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+import su90.mybatisdemo.dao.domain.Job_History;
+import su90.mybatisdemo.dao.mapper.DepartmentsMapper;
+import su90.mybatisdemo.dao.mapper.Job_HistoryMapper;
+import su90.mybatisdemo.dao.mapper.JobsMapper;
 
 /**
  *
  * @author superman90
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class EmployeesMapperTest {
+public class EmployeesMapperTest extends AbstractTestNGSpringContextTests{
     
     @Autowired
     EmployeesMapper employeesMapper;
+    
+    @Autowired
+    JobsMapper jobsMapper;
+    
+    @Autowired
+    DepartmentsMapper departmentsMapper;
+    
+    @Autowired
+    Job_HistoryMapper job_HistoryMapper;
+
+    public void setJob_HistoryMapper(Job_HistoryMapper job_HistoryMapper) {
+        this.job_HistoryMapper = job_HistoryMapper;
+    }
+
+    public void setDepartmentsMapper(DepartmentsMapper departmentsMapper) {
+        this.departmentsMapper = departmentsMapper;
+    }
+
+    public void setJobsMapper(JobsMapper jobsMapper) {
+        this.jobsMapper = jobsMapper;
+    }
 
     public void setEmployeesMapper(EmployeesMapper employeesMapper) {
         this.employeesMapper = employeesMapper;
     }
     
-    @Test
+    @Test(groups={"find"})
     public void testFindAll(){
         List<Employee> result = employeesMapper.findAll();
         assertNotNull(result);
         assertEquals(result.size(), 107);
     }
     
-    @Test
+    @Test(groups={"find"})
     public void testFindById(){
         Employee janette = employeesMapper.findById(156L);
         assertNotNull(janette.getJob());
@@ -48,7 +71,7 @@ public class EmployeesMapperTest {
         assertNotNull(janette.getDepartment());
     }
     
-    @Test
+    @Test(groups={"find"})
     public void testFindByRawProperties01(){
         EmployeesMapper.EmployeeQuery sampleEQ = new EmployeesMapper
                 .EmployeeQuery(employeesMapper.findById(148L));
@@ -57,9 +80,9 @@ public class EmployeesMapperTest {
         assertEquals(result.size(),1);
         assertNotNull(result.get(0));
         assertEquals(result.get(0).getFname(),"Gerald");
-    };
+    }
     
-    @Test
+    @Test(groups={"find"})
     public void testFindByRawProperties02(){
         try
         {
@@ -75,15 +98,86 @@ public class EmployeesMapperTest {
         }catch(ParseException ex){
             assertTrue(false);
         }
-    };
+    }
     
-    @Test
+    @Test(groups={"find"})
     public void testFindByRawProperties03(){
         EmployeesMapper.EmployeeQuery sampleEQ = new EmployeesMapper
                 .EmployeeQuery();
         List<Employee> result = employeesMapper.findByRawProperties(sampleEQ);
         assertEquals(result.size(),1);
         assertNull(result.get(0));
-    };
+    }
+    
+    @Test(groups={"find"})
+    public void testFindByRawType(){
+        Employee employee = employeesMapper.findById(148L);
+        employee.setId(null);
+        List<Employee> result = employeesMapper.findByRawType(employee);
+        assertEquals(result.size(),1);
+        assertNotNull(result.get(0));
+        assertEquals(result.get(0).getFname(),"Gerald");
+    }
+    
+    @Test(groups = {"find"})
+    public void testCount(){
+        Long result = employeesMapper.count();
+        assertTrue(result>0);
+    }
+    
+    @Test(groups = {"insert"})
+    public void testInsert(){
+        Employee employee = new Employee(
+                "WENTAO", "LI", "wl256@njit.edu", "8625761649", 
+                new Date((new java.util.Date()).getTime()), 
+                jobsMapper.findById("IT_PROG"),
+                60000.00, 0.15, 
+                employeesMapper.findById(100L), 
+                departmentsMapper.findById(60L));
+        employeesMapper.insertOne(employee);
+        
+        Employee search = new Employee();
+        search.setEmail("wl256@njit.edu");
+        List<Employee> result = employeesMapper.findByRawType(search);
+        
+        assertTrue(result.size()>0);
+        assertEquals(result.get(0).getFname(), "WENTAO");
+    }
+    
+    @Test(groups = {"update"},dependsOnGroups = {"insert"})
+    public void testUpdate(){
+        Employee search = new Employee();
+        search.setEmail("wl256@njit.edu");
+        Employee tobeupdated = employeesMapper.findByRawType(search).get(0);
+        
+        tobeupdated.setLname("Leigh");
+        
+        employeesMapper.updateOne(tobeupdated);
+        
+        List<Employee> result = employeesMapper.findByRawType(search);
+        
+        assertTrue(result.size()>0);
+        assertEquals(result.get(0).getLname(), "Leigh");
+    }
+    
+    @Test(groups = {"delete"},dependsOnGroups = {"update","insert"})
+    public void testDelete(){
+        Employee search = new Employee();
+        search.setEmail("wl256@njit.edu");
+        Employee tobedeleted = employeesMapper.findByRawType(search).get(0);
+        
+        Job_History jhsearch = new Job_History();
+        jhsearch.setEmployee(tobedeleted);
+        
+        List<Job_History> tobedeletedhistory= job_HistoryMapper.findByRawType(jhsearch);
+        
+        for(Job_History jh: tobedeletedhistory){
+            job_HistoryMapper.deleteById(jh.getKey());
+        }
+        
+        employeesMapper.deleteById(tobedeleted.getId());
+        
+        assertNull(employeesMapper.findById(tobedeleted.getId()));
+    }
     
 }

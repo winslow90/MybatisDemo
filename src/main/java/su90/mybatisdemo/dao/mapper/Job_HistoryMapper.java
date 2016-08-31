@@ -98,7 +98,7 @@ public interface Job_HistoryMapper extends BaseMapper<Job_History, Job_History.K
         
         public String buildInsertOne(Job_History jh){
             BEGIN();
-            if (jh.isValidated()&&jh.hasValidatedKey()){
+            if (jh.hasValidatedKey()){
                 INSERT_INTO("job_history");
                 VALUES("employee_id", "#{employee.id}");
                 VALUES("start_date", "#{start_date}");                
@@ -116,11 +116,7 @@ public interface Job_HistoryMapper extends BaseMapper<Job_History, Job_History.K
                 }
                 
             }else{
-                if (!jh.isValidated()){
-                    throw new InvalidBeanException("The Job_Hitory bean to be inserted is invalid");
-                }else{
-                    throw new KeyAbsentException("The Job_Hitory bean has to have the key");
-                }
+                throw new KeyAbsentException("The Job_Hitory bean has to have the key");
                 
             }
             return SQL();
