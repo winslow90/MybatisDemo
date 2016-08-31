@@ -106,7 +106,7 @@ public interface JobsMapper extends BaseMapper<Job, String, Job>{
         
         public String buildUpdateOne(Job job){
             BEGIN();
-            if (job.hasValidatedKey()){
+            if (job.hasValidatedKey()&&job.isValidated()){
                 UPDATE("jobs");
                 //                (title!=null&&!title.isEmpty())||
                 if (job.getTitle()!=null&&!job.getTitle().isEmpty()){
