@@ -103,11 +103,17 @@ public class Country implements BaseDomain<String,CountryBean>, Serializable{
 
     @Override
     public CountryBean getWebBean() {
-        Href regionhref=null;
-        if (getRegion()!=null){
-            regionhref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
-                    RegionsEndpoints.class).getOne(getRegion().getId()));
-        }
-        return new CountryBean(id, name, regionhref);
+//        Href regionhref=null;
+//        if (getRegion()!=null){
+//            regionhref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+//                    RegionsEndpoints.class).getOne(getRegion().getId()));
+//        }
+//        return new CountryBean(id, name, regionhref);
+
+          if (getRegion()!=null){
+              return new CountryBean(id, name, getRegion().getWebBean());
+          }else{
+              return new CountryBean(id, name, null);
+          }
     }
 }

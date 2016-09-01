@@ -12,17 +12,17 @@ package su90.mybatisdemo.web.beans;
 public class CountryBean {
     String id;
     String name;
-    Href region;    
+    RegionBean region;    
 
     public CountryBean() {
     }
 
-    public CountryBean(String name, Href region) {
+    public CountryBean(String name, RegionBean region) {
         this.name = name;
         this.region = region;
     }
 
-    public CountryBean(String id, String name, Href region) {
+    public CountryBean(String id, String name, RegionBean region) {
         this.id = id;
         this.name = name;
         this.region = region;
@@ -44,11 +44,11 @@ public class CountryBean {
         this.name = name;
     }
 
-    public Href getRegion() {
+    public RegionBean getRegion() {
         return region;
     }
 
-    public void setRegion(Href region) {
+    public void setRegion(RegionBean region) {
         this.region = region;
     }
 
@@ -61,7 +61,7 @@ public class CountryBean {
             sb.append("country_name:");
             sb.append(name);
             sb.append("region_id:");
-            sb.append(region.getHref());
+            sb.append(region.toString());
             sb.append('}');        
         return sb.toString();
     }
