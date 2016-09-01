@@ -20,13 +20,14 @@ import org.apache.ibatis.annotations.UpdateProvider;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.domain.Region;
+import su90.mybatisdemo.web.beans.RegionBean;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface RegionsMapper extends BaseMapper<Region, Long, Region>{
+public interface RegionsMapper extends BaseMapper<Region, Long,RegionBean, Region>{
     
     static public class SqlBuilderHelper{        
         public String buildUpdateString(Region region){

@@ -24,13 +24,14 @@ import su90.mybatisdemo.dao.domain.Country;
 import su90.mybatisdemo.dao.domain.Region;
 import su90.mybatisdemo.dao.ex.InvalidBeanException;
 import su90.mybatisdemo.dao.ex.KeyAbsentException;
+import su90.mybatisdemo.web.beans.CountryBean;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface CountriesMapper extends BaseMapper<Country, String, Country>{
+public interface CountriesMapper extends BaseMapper<Country, String,CountryBean, Country>{
     
     static class SqlBuilderHelper{
         public String buildFindByRawProperties(Country country){

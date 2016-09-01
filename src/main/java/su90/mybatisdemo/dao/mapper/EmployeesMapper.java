@@ -25,13 +25,14 @@ import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.domain.Department;
 import su90.mybatisdemo.dao.ex.InvalidBeanException;
 import su90.mybatisdemo.dao.ex.KeyAbsentException;
+import su90.mybatisdemo.web.beans.EmployeeBean;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface EmployeesMapper extends BaseMapper<Employee, Long, EmployeesMapper.EmployeeQuery> {
+public interface EmployeesMapper extends BaseMapper<Employee, Long,EmployeeBean, EmployeesMapper.EmployeeQuery> {
     
     static public class SqlBuilderHelper{
         public String buildFindByRawProperties(EmployeeQuery eq){

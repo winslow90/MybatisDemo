@@ -8,13 +8,20 @@ package su90.mybatisdemo.dao.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Date;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import su90.mybatisdemo.dao.base.BaseDomain;
+import su90.mybatisdemo.utils.UriUtils;
+import su90.mybatisdemo.web.beans.EmployeeBean;
+import su90.mybatisdemo.web.beans.Href;
+import su90.mybatisdemo.web.endpoints.DepartmentsEndpoints;
+import su90.mybatisdemo.web.endpoints.EmployeesEndpoints;
+import su90.mybatisdemo.web.endpoints.JobsEndpoints;
 
 /**
  *
  * @author superman90
  */
-public class Employee implements BaseDomain<Long> ,Serializable{
+public class Employee implements BaseDomain<Long,EmployeeBean> ,Serializable{
 
     public Long id;
     public String fname;
@@ -183,5 +190,25 @@ public class Employee implements BaseDomain<Long> ,Serializable{
     @JsonIgnore
     public void setKey(Long key) {
         this.id = key;
+    }
+
+    @Override
+    public EmployeeBean getWebBean() {
+        Href jobHref = null;
+        Href managerHref = null;
+        Href departmentHref = null;
+        if (getJob()!=null){
+            jobHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+                    JobsEndpoints.class).getOne(getJob().getId()));
+        }
+        if (getManager()!=null){
+            managerHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+                    EmployeesEndpoints.class).getOne(getManager().getId()));
+        }
+        if (getDepartment()!=null){
+            departmentHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+                    DepartmentsEndpoints.class).getOne(getDepartment().getId()));
+        }
+        return new EmployeeBean(id, fname, lname, email, phone, hiredate, jobHref, salary, comm, managerHref, departmentHref);
     }
 }

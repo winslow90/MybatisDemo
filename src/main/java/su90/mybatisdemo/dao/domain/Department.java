@@ -7,13 +7,19 @@ package su90.mybatisdemo.dao.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import su90.mybatisdemo.dao.base.BaseDomain;
+import su90.mybatisdemo.utils.UriUtils;
+import su90.mybatisdemo.web.beans.DepartmentBean;
+import su90.mybatisdemo.web.beans.Href;
+import su90.mybatisdemo.web.endpoints.EmployeesEndpoints;
+import su90.mybatisdemo.web.endpoints.LocationsEndpoints;
 
 /**
  *
  * @author superman90
  */
-public class Department implements BaseDomain<Long> ,Serializable{
+public class Department implements BaseDomain<Long,DepartmentBean> ,Serializable{
     
     Long id;
     String name;
@@ -96,5 +102,21 @@ public class Department implements BaseDomain<Long> ,Serializable{
     @JsonIgnore
     public void setKey(Long key) {
         this.id=key;
+    }
+
+    @Override
+    public DepartmentBean getWebBean() {
+        Href managerHref = null;
+        Href locationHref = null;
+        
+        if (getManager()!=null){
+            managerHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+                    EmployeesEndpoints.class).getOne(getManager().getId()));
+        }
+        if (getLocation()!=null){
+            locationHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+                    LocationsEndpoints.class).getOne(getLocation().getId()));
+        }
+        return new DepartmentBean(id, name, managerHref, locationHref);
     }
 }

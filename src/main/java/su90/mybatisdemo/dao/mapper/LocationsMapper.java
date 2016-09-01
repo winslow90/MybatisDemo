@@ -23,13 +23,14 @@ import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.ex.InvalidBeanException;
 import su90.mybatisdemo.dao.ex.KeyAbsentException;
+import su90.mybatisdemo.web.beans.LocationBean;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface LocationsMapper extends BaseMapper<Location, Long, Location>{
+public interface LocationsMapper extends BaseMapper<Location, Long,LocationBean, Location>{
     static class SqlBuilderHelper{
         public String buildFindByRawProperties(Location location){
             BEGIN();

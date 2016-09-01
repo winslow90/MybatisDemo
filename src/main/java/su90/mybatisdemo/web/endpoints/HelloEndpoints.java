@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/hello")
-public class HelloController {
+public class HelloEndpoints {
     
     @RequestMapping(value = "/{name}", method = RequestMethod.GET)
     public String sayHellow(@PathVariable String name){

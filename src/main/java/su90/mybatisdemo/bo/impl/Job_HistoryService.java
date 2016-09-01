@@ -9,23 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import su90.mybatisdemo.bo.base.BaseServiceImpl;
 import su90.mybatisdemo.dao.base.BaseMapper;
-import su90.mybatisdemo.dao.domain.Region;
-import su90.mybatisdemo.dao.mapper.RegionsMapper;
-import su90.mybatisdemo.web.beans.RegionBean;
+import su90.mybatisdemo.dao.domain.Job_History;
+import su90.mybatisdemo.dao.mapper.Job_HistoryMapper;
+import su90.mybatisdemo.web.beans.Job_HistoryBean;
 
 /**
  *
  * @author superman90
  */
 @Service
-public class RegionsService extends BaseServiceImpl<Region, Long,RegionBean, Region>{
-    
-    @Autowired
-    RegionsMapper regionsMapper;
+public class Job_HistoryService extends BaseServiceImpl<Job_History, Job_History.Key, Job_HistoryBean, Job_History>{
 
+    @Autowired
+    Job_HistoryMapper job_HistoryMapper;
+    
     @Override
-    public BaseMapper<Region, Long,RegionBean, Region> getBaseMapper() {
-        return regionsMapper;
+    public BaseMapper<Job_History, Job_History.Key, Job_HistoryBean, Job_History> getBaseMapper() {
+        return job_HistoryMapper;
     }
     
 }

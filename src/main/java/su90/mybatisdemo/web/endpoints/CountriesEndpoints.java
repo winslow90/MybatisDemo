@@ -5,8 +5,6 @@
  */
 package su90.mybatisdemo.web.endpoints;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,40 +12,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import su90.mybatisdemo.bo.impl.RegionsService;
-import su90.mybatisdemo.dao.domain.Region;
+import su90.mybatisdemo.bo.impl.CountriesService;
+import su90.mybatisdemo.web.beans.CountryBean;
 
 /**
  *
- * get      read
- * put      create      idempotent
- * post     update
- * delete   delete
- * option   list support operations
  * @author superman90
  */
 @RestController
-@RequestMapping(value = "/regions")
-public class RegionsController {
+@RequestMapping(value = "/api/countries")
+public class CountriesEndpoints {
     
     @Autowired
-    RegionsService regionsService;
+    CountriesService countriesService;
     
     @RequestMapping(value = "/getall", method = RequestMethod.GET, 
             produces = {"application/json"})
-    @ApiOperation(value = "Find all regions",
+    @ApiOperation(value = "Find all countries",
             httpMethod = "GET"
-            )
-    
-    public List<Region> getAllRegions(){
-        return regionsService.getEntries();
+            )   
+    public List<CountryBean> getAll(){
+        return countriesService.getWebBeans();
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET,
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET,
             produces = {"application/json"})
-    @ApiOperation(value = "findspecify region")
-    public Region getOneRegion(@PathVariable Long id){
-        return regionsService.getEntryById(id);
+    @ApiOperation(value = "findspecify country")
+    public CountryBean getOne(@PathVariable String id){
+        return countriesService.getWebBeanById(id);
     }
     
 }

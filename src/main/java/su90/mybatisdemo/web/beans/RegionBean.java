@@ -3,29 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package su90.mybatisdemo.dao.domain;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.io.Serializable;
-import su90.mybatisdemo.dao.base.BaseDomain;
-import su90.mybatisdemo.web.beans.RegionBean;
+package su90.mybatisdemo.web.beans;
 
 /**
  *
  * @author superman90
  */
-public class Region implements BaseDomain<Long,RegionBean> ,Serializable{
+public class RegionBean {
     Long id;
     String name;
 
-    public Region(){
+    public RegionBean(){
     }
 
-    public Region(String name) {
+    public RegionBean(String name) {
         this.name = name;
     }
 
-    public Region(Long region_id, String region_name) {
+    public RegionBean(Long region_id, String region_name) {
         this.id = region_id;
         this.name = region_name;
     }
@@ -58,27 +53,4 @@ public class Region implements BaseDomain<Long,RegionBean> ,Serializable{
         return sb.toString();
     }
     
-    public Boolean isValidated(){
-        return (name!=null && !name.isEmpty());
-    }
-
-    @Override
-    public Long getKey() {
-        return this.id;
-    }
-
-    @Override
-    public Boolean hasValidatedKey() {
-        return this.id!=null;
-    }
-
-    @Override
-    public void setKey(Long key) {
-        this.id = key;
-    }
-
-    @Override
-    public RegionBean getWebBean() {
-        return new RegionBean(id, name);
-    }
 }

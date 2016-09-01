@@ -12,13 +12,17 @@ import su90.mybatisdemo.dao.base.BaseDomain;
  *
  * @author superman90
  */
-public interface BaseService<T extends BaseDomain<K>,K,Q> {
+public interface BaseService<T extends BaseDomain<K,W>,K,W,Q> {
     public List<T> getEntries();
+        public List<W> getWebBeans();
     public List<T> getEntriesByIds(K[] ids);
+        public List<W> getWebBeansByIds(K[] ids);
     public List<T> getEntriesByBean(Q bean);
+        public List<W> getWebBeansByBean(Q bean);
     public void saveEntry(T t);
     public void updateEntry(T t);
     public T getEntryById(K id);
+        public W getWebBeanById(K id);
     public void deleteEntriesByIds(K[] ids);
     public void deleteEntryById(K id);
     public Long count();

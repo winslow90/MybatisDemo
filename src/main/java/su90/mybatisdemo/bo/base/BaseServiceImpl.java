@@ -17,10 +17,10 @@ import su90.mybatisdemo.dao.base.BaseMapper;
  * @param <K>   key
  * @param <Q>   querybean
  */
-public abstract class BaseServiceImpl<T extends BaseDomain<K>, K, Q> implements BaseService<T, K, Q>{
+public abstract class BaseServiceImpl<T extends BaseDomain<K,W>, K,W, Q> implements BaseService<T, K,W, Q>{
     
     
-    public abstract BaseMapper<T, K, Q> getBaseMapper();
+    public abstract BaseMapper<T, K,W, Q> getBaseMapper();
 
     @Override
     public List<T> getEntries() {
@@ -84,5 +84,37 @@ public abstract class BaseServiceImpl<T extends BaseDomain<K>, K, Q> implements 
     public Long count() {
         return getBaseMapper().count();
     }
+
+    @Override
+    public List<W> getWebBeansByBean(Q querybean){
+        List<W> result = new ArrayList<>();
+        List<T> oriresult = getEntriesByBean(querybean);
+        for (T bean: oriresult){
+            result.add(bean.getWebBean());
+        }
+        return result;
+    }
+
+    @Override
+    public List<W> getWebBeansByIds(K[] ids){
+        List<W> result = new ArrayList<>();
+        getEntriesByIds(ids).stream().forEach(bean->{result.add(bean.getWebBean());});
+        return result;        
+    }
+
+    @Override
+    public W getWebBeanById(K id){
+        return getEntryById(id).getWebBean();
+    }
+    
+    
+
+    @Override
+    public List<W> getWebBeans(){
+        List<W> result = new ArrayList<>();
+        getEntries().stream().forEach(bean->{result.add(bean.getWebBean());});
+        return result; 
+    }
+    
     
 }

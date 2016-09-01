@@ -8,13 +8,20 @@ package su90.mybatisdemo.dao.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Date;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import su90.mybatisdemo.dao.base.BaseDomain;
+import su90.mybatisdemo.utils.UriUtils;
+import su90.mybatisdemo.web.beans.Href;
+import su90.mybatisdemo.web.beans.Job_HistoryBean;
+import su90.mybatisdemo.web.endpoints.DepartmentsEndpoints;
+import su90.mybatisdemo.web.endpoints.EmployeesEndpoints;
+import su90.mybatisdemo.web.endpoints.JobsEndpoints;
 
 /**
  *
  * @author superman90
  */
-public class Job_History implements BaseDomain<Job_History.Key>, Serializable{
+public class Job_History implements BaseDomain<Job_History.Key,Job_HistoryBean>, Serializable{
     
     public Employee employee;
     public Date start_date;
@@ -23,6 +30,7 @@ public class Job_History implements BaseDomain<Job_History.Key>, Serializable{
     public Department department;
     
     private Job_History.Key thekey=null;
+
 
     public static class Key{
         
@@ -149,6 +157,32 @@ public class Job_History implements BaseDomain<Job_History.Key>, Serializable{
     public void setKey(Key key) {
         this.employee=key.getEmployee();
         this.start_date=key.getStart_date();
+    }
+    
+    @Override
+    public Job_HistoryBean getWebBean() {
+        Href employeeHref=null;
+        Href jobHref=null;
+        Href departmentHref=null;
+        
+        if (getEmployee()!=null){
+            employeeHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+                    EmployeesEndpoints.class).getOne(getEmployee().getId()));
+        }
+        
+        if (getJob()!=null){
+            jobHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+                    JobsEndpoints.class).getOne(getJob().getId()));
+        }
+        
+        if (getDepartment()!=null){
+            departmentHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+                    DepartmentsEndpoints.class).getOne(getDepartment().getId()));
+        }
+        
+        Job_HistoryBean result = new Job_HistoryBean(employeeHref, start_date, end_date, jobHref, departmentHref);
+        result.setKey(new Job_HistoryBean.Key(getEmployee().getId(), start_date));
+        return result;
     }
     
 }

@@ -19,13 +19,14 @@ import su90.mybatisdemo.dao.domain.Job;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.ex.InvalidBeanException;
+import su90.mybatisdemo.web.beans.JobBean;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface JobsMapper extends BaseMapper<Job, String, Job>{
+public interface JobsMapper extends BaseMapper<Job, String,JobBean, Job>{
     
     static public class SqlBuilderHelper{
         

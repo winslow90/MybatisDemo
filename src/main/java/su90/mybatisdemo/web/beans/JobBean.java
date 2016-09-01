@@ -3,33 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package su90.mybatisdemo.dao.domain;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.io.Serializable;
-import su90.mybatisdemo.dao.base.BaseDomain;
-import su90.mybatisdemo.web.beans.JobBean;
+package su90.mybatisdemo.web.beans;
 
 /**
  *
  * @author superman90
  */
-public class Job implements BaseDomain<String,JobBean>, Serializable{
-        String id;
+public class JobBean {
+       String id;
         String title;
         Long min_sal;
         Long max_sal;
 
-    public Job() {
+    public JobBean() {
     }
 
-    public Job(String title, Long min_sal, Long max_sal) {
+    public JobBean(String title, Long min_sal, Long max_sal) {
         this.title = title;
         this.min_sal = min_sal;
         this.max_sal = max_sal;
     }
 
-    public Job(String id, String title, Long min_sal, Long max_sal) {
+    public JobBean(String id, String title, Long min_sal, Long max_sal) {
         this.id = id;
         this.title = title;
         this.min_sal = min_sal;
@@ -71,36 +66,5 @@ public class Job implements BaseDomain<String,JobBean>, Serializable{
     @Override
     public String toString() {
         return "Job{" + "id=" + id + ", title=" + title + ", min_sal=" + min_sal + ", max_sal=" + max_sal + '}';
-    }        
-        
-    @JsonIgnore
-    public Boolean isValidated(){
-        return 
-                (title!=null&&!title.isEmpty())||
-                (min_sal!=null&&min_sal>=0&&(max_sal==null||max_sal>=min_sal))||
-                (max_sal!=null&&max_sal>=0&&(min_sal==null||max_sal>=min_sal))
-        ;
-    }
-
-    @Override
-    @JsonIgnore
-    public String getKey() {
-        return this.id;
-    }
-
-    @Override
-    public Boolean hasValidatedKey() {
-        return this.id!=null;
-    }
-
-    @Override
-    @JsonIgnore
-    public void setKey(String key) {
-        this.id = key;
-    }
-
-    @Override
-    public JobBean getWebBean() {
-        return new JobBean(id, title, min_sal, max_sal);
     }
 }

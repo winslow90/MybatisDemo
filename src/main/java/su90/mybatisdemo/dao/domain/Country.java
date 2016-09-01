@@ -7,13 +7,21 @@ package su90.mybatisdemo.dao.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.net.URI;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 import su90.mybatisdemo.dao.base.BaseDomain;
+import su90.mybatisdemo.utils.UriUtils;
+import su90.mybatisdemo.web.beans.CountryBean;
+import su90.mybatisdemo.web.beans.Href;
+import su90.mybatisdemo.web.endpoints.RegionsEndpoints;
 
 /**
  *
  * @author superman90
  */
-public class Country implements BaseDomain<String>, Serializable{
+public class Country implements BaseDomain<String,CountryBean>, Serializable{
 
     String id;
     String name;
@@ -91,5 +99,15 @@ public class Country implements BaseDomain<String>, Serializable{
     @JsonIgnore
     public void setKey(String key) {
         this.id=key;
+    }
+
+    @Override
+    public CountryBean getWebBean() {
+        Href regionhref=null;
+        if (getRegion()!=null){
+            regionhref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+                    RegionsEndpoints.class).getOne(getRegion().getId()));
+        }
+        return new CountryBean(id, name, regionhref);
     }
 }

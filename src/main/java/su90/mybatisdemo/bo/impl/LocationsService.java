@@ -9,23 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import su90.mybatisdemo.bo.base.BaseServiceImpl;
 import su90.mybatisdemo.dao.base.BaseMapper;
-import su90.mybatisdemo.dao.domain.Region;
-import su90.mybatisdemo.dao.mapper.RegionsMapper;
-import su90.mybatisdemo.web.beans.RegionBean;
+import su90.mybatisdemo.dao.domain.Location;
+import su90.mybatisdemo.dao.mapper.LocationsMapper;
+import su90.mybatisdemo.web.beans.LocationBean;
 
 /**
  *
  * @author superman90
  */
 @Service
-public class RegionsService extends BaseServiceImpl<Region, Long,RegionBean, Region>{
-    
-    @Autowired
-    RegionsMapper regionsMapper;
+public class LocationsService extends BaseServiceImpl<Location, Long, LocationBean, Location>{
 
+    @Autowired
+    LocationsMapper locationsMapper;
+    
     @Override
-    public BaseMapper<Region, Long,RegionBean, Region> getBaseMapper() {
-        return regionsMapper;
+    public BaseMapper<Location, Long, LocationBean, Location> getBaseMapper() {
+        return locationsMapper;
     }
     
 }

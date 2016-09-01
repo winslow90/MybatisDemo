@@ -24,13 +24,14 @@ import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.ex.InvalidBeanException;
 import su90.mybatisdemo.dao.ex.KeyAbsentException;
+import su90.mybatisdemo.web.beans.Job_HistoryBean;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface Job_HistoryMapper extends BaseMapper<Job_History, Job_History.Key, Job_History>{
+public interface Job_HistoryMapper extends BaseMapper<Job_History, Job_History.Key,Job_HistoryBean, Job_History>{
     static public class SqlBuilderHelper{
         public String buildFindByRawProperties(Job_History jh){
             BEGIN();

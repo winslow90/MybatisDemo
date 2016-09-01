@@ -3,34 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package su90.mybatisdemo.dao.domain;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.io.Serializable;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import su90.mybatisdemo.dao.base.BaseDomain;
-import su90.mybatisdemo.utils.UriUtils;
-import su90.mybatisdemo.web.beans.Href;
-import su90.mybatisdemo.web.beans.LocationBean;
-import su90.mybatisdemo.web.endpoints.CountriesEndpoints;
+package su90.mybatisdemo.web.beans;
 
 /**
  *
  * @author superman90
  */
-public class Location implements BaseDomain<Long, LocationBean>,Serializable{
-    
+public class LocationBean {
     Long id;
     String address;
     String postal_code;
     String city;
     String province;
-    Country country;
+    Href country;
 
-    public Location() {
+    public LocationBean() {
     }
 
-    public Location(String address, String postal_code, String city, String province, Country country) {
+    public LocationBean(String address, String postal_code, String city, String province, Href country) {
         this.address = address;
         this.postal_code = postal_code;
         this.city = city;
@@ -38,7 +28,7 @@ public class Location implements BaseDomain<Long, LocationBean>,Serializable{
         this.country = country;
     }
 
-    public Location(Long id, String address, String postal_code, String city, String province, Country country) {
+    public LocationBean(Long id, String address, String postal_code, String city, String province, Href country) {
         this.id = id;
         this.address = address;
         this.postal_code = postal_code;
@@ -87,11 +77,11 @@ public class Location implements BaseDomain<Long, LocationBean>,Serializable{
         this.province = province;
     }
 
-    public Country getCountry() {
+    public Href getCountry() {
         return country;
     }
 
-    public void setCountry(Country country) {
+    public void setCountry(Href country) {
         this.country = country;
     }
     
@@ -110,45 +100,9 @@ public class Location implements BaseDomain<Long, LocationBean>,Serializable{
             sb.append("state_province:");
             sb.append(province);
             sb.append("country_id:");
-            sb.append(country.getId());
+            sb.append(country.getHref());
             sb.append('}');        
         return sb.toString();
-    }
-    
-    @JsonIgnore
-    public Boolean isValidated(){
-        return (address!=null&&!address.isEmpty())||
-                (postal_code!=null&&!postal_code.isEmpty())||
-                (city!=null&&!city.isEmpty())||
-                (province!=null&&province.isEmpty())||
-                (country!=null&&country.getId()!=null&&!country.getId().isEmpty());
-    }
-
-    @Override
-    @JsonIgnore
-    public Long getKey() {
-        return this.id;
-    }
-
-    @Override
-    public Boolean hasValidatedKey() {
-        return this.id!=null;
-    }
-
-    @Override
-    @JsonIgnore
-    public void setKey(Long key) {
-        this.id=key;
-    }
-
-    @Override
-    public LocationBean getWebBean() {
-        Href countryHref = null;
-        if (getCountry()!=null){
-            countryHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
-                    CountriesEndpoints.class).getOne(getCountry().getId()));
-        }
-        return new LocationBean(id, address, postal_code, city, province, countryHref);
     }
     
 }

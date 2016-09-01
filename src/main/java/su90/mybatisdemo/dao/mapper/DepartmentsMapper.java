@@ -21,13 +21,14 @@ import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.domain.Department;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import su90.mybatisdemo.dao.ex.InvalidBeanException;
+import su90.mybatisdemo.web.beans.DepartmentBean;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface DepartmentsMapper extends BaseMapper<Department, Long, Department>{
+public interface DepartmentsMapper extends BaseMapper<Department, Long,DepartmentBean, Department>{
 
     static public class SqlBuilderHelper{
         public String buildFindByRawType(Department d){

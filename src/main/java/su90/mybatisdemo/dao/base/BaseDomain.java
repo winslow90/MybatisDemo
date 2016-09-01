@@ -9,8 +9,9 @@ package su90.mybatisdemo.dao.base;
  *
  * @author superman90
  */
-public interface BaseDomain<K> {
+public interface BaseDomain<K,W> {
     public Boolean hasValidatedKey();
     public void setKey(K key);
     public K getKey();
+    public W getWebBean();
 }
