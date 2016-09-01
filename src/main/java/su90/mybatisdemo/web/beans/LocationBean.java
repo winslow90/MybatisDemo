@@ -15,12 +15,12 @@ public class LocationBean {
     String postal_code;
     String city;
     String province;
-    Href country;
+    CountryBean country;
 
     public LocationBean() {
     }
 
-    public LocationBean(String address, String postal_code, String city, String province, Href country) {
+    public LocationBean(String address, String postal_code, String city, String province, CountryBean country) {
         this.address = address;
         this.postal_code = postal_code;
         this.city = city;
@@ -28,7 +28,7 @@ public class LocationBean {
         this.country = country;
     }
 
-    public LocationBean(Long id, String address, String postal_code, String city, String province, Href country) {
+    public LocationBean(Long id, String address, String postal_code, String city, String province, CountryBean country) {
         this.id = id;
         this.address = address;
         this.postal_code = postal_code;
@@ -77,11 +77,11 @@ public class LocationBean {
         this.province = province;
     }
 
-    public Href getCountry() {
+    public CountryBean getCountry() {
         return country;
     }
 
-    public void setCountry(Href country) {
+    public void setCountry(CountryBean country) {
         this.country = country;
     }
     
@@ -100,7 +100,7 @@ public class LocationBean {
             sb.append("state_province:");
             sb.append(province);
             sb.append("country_id:");
-            sb.append(country.getHref());
+            sb.append(country.toString());
             sb.append('}');        
         return sb.toString();
     }

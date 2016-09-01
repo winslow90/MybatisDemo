@@ -18,7 +18,7 @@ public class EmployeeBean {
     public String email;
     public String phone;
     public Date hiredate;
-    public Href job;
+    public JobBean job;
     public Double salary;
     public Double comm;
     public Href manager;
@@ -27,7 +27,7 @@ public class EmployeeBean {
     public EmployeeBean() {
     }
 
-    public EmployeeBean(String fname, String lname, String email, String phone, Date hiredate, Href job, Double salary, Double comm, Href manager, Href department) {
+    public EmployeeBean(String fname, String lname, String email, String phone, Date hiredate, JobBean job, Double salary, Double comm, Href manager, Href department) {
         this.fname = fname;
         this.lname = lname;
         this.email = email;
@@ -40,7 +40,7 @@ public class EmployeeBean {
         this.department = department;
     }
 
-    public EmployeeBean(Long id, String fname, String lname, String email, String phone, Date hiredate, Href job, Double salary, Double comm, Href manager, Href department) {
+    public EmployeeBean(Long id, String fname, String lname, String email, String phone, Date hiredate, JobBean job, Double salary, Double comm, Href manager, Href department) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
@@ -104,11 +104,11 @@ public class EmployeeBean {
         this.hiredate = hiredate;
     }
 
-    public Href getJob() {
+    public JobBean getJob() {
         return job;
     }
 
-    public void setJob(Href job) {
+    public void setJob(JobBean job) {
         this.job = job;
     }
 
@@ -148,7 +148,7 @@ public class EmployeeBean {
     public String toString() {
         return "Employee{" + "id=" + id + ", fname=" + fname + ", lname=" + 
                 lname + ", email=" + email + ", phone=" + phone + ", hiredate=" +
-                hiredate + ", job_id=" + job.getHref()+ ", salary=" + salary + 
+                hiredate + ", job_id=" + job.toString()+ ", salary=" + salary + 
                 ", comm=" + comm + ", manager_id=" + manager.getHref()+ 
                 ", department_id=" + department.getHref()+ '}';
     }

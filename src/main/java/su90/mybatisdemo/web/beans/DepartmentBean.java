@@ -13,18 +13,18 @@ public class DepartmentBean {
     Long id;
     String name;
     Href manager;
-    Href location;
+    LocationBean location;
 
     public DepartmentBean() {
     }
 
-    public DepartmentBean(String name, Href manager, Href location) {
+    public DepartmentBean(String name, Href manager, LocationBean location) {
         this.name = name;
         this.manager = manager;
         this.location = location;
     }
 
-    public DepartmentBean(Long id, String name, Href manager, Href location) {
+    public DepartmentBean(Long id, String name, Href manager, LocationBean location) {
         this.id = id;
         this.name = name;
         this.manager = manager;
@@ -55,16 +55,16 @@ public class DepartmentBean {
         this.manager = manager;
     }
 
-    public Href getLocation() {
+    public LocationBean getLocation() {
         return location;
     }
 
-    public void setLocation(Href location) {
+    public void setLocation(LocationBean location) {
         this.location = location;
     }
 
     @Override
     public String toString() {
-        return "Department{" + "id=" + id + ", name=" + name + ", manager_id=" + manager.getHref()+ ", location_id=" + location.getHref()+ '}';
+        return "Department{" + "id=" + id + ", name=" + name + ", manager_id=" + manager.getHref()+ ", location_id=" + location.toString()+ '}';
     }
 }

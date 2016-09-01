@@ -12,6 +12,7 @@ import su90.mybatisdemo.dao.base.BaseDomain;
 import su90.mybatisdemo.utils.UriUtils;
 import su90.mybatisdemo.web.beans.DepartmentBean;
 import su90.mybatisdemo.web.beans.Href;
+import su90.mybatisdemo.web.beans.LocationBean;
 import su90.mybatisdemo.web.endpoints.EmployeesEndpoints;
 import su90.mybatisdemo.web.endpoints.LocationsEndpoints;
 
@@ -107,16 +108,19 @@ public class Department implements BaseDomain<Long,DepartmentBean> ,Serializable
     @Override
     public DepartmentBean getWebBean() {
         Href managerHref = null;
-        Href locationHref = null;
+        LocationBean locationBean = null;
         
         if (getManager()!=null){
             managerHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
                     EmployeesEndpoints.class).getOne(getManager().getId()));
         }
         if (getLocation()!=null){
-            locationHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
-                    LocationsEndpoints.class).getOne(getLocation().getId()));
+//            locationHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+//                    LocationsEndpoints.class).getOne(getLocation().getId()));
+            locationBean = getLocation().getWebBean();
         }
-        return new DepartmentBean(id, name, managerHref, locationHref);
+
+
+        return new DepartmentBean(id, name, managerHref, locationBean);
     }
 }

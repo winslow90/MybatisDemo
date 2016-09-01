@@ -143,12 +143,17 @@ public class Location implements BaseDomain<Long, LocationBean>,Serializable{
 
     @Override
     public LocationBean getWebBean() {
-        Href countryHref = null;
+//        Href countryHref = null;
+//        if (getCountry()!=null){
+//            countryHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+//                    CountriesEndpoints.class).getOne(getCountry().getId()));
+//        }
+//        return new LocationBean(id, address, postal_code, city, province, countryHref);
         if (getCountry()!=null){
-            countryHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
-                    CountriesEndpoints.class).getOne(getCountry().getId()));
+            return new LocationBean(id, address, postal_code, city, province, country.getWebBean());
+        }else{
+            return new LocationBean(id, address, postal_code, city, province, null);
         }
-        return new LocationBean(id, address, postal_code, city, province, countryHref);
     }
     
 }

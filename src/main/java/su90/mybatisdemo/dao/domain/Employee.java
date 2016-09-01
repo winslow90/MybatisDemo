@@ -13,6 +13,7 @@ import su90.mybatisdemo.dao.base.BaseDomain;
 import su90.mybatisdemo.utils.UriUtils;
 import su90.mybatisdemo.web.beans.EmployeeBean;
 import su90.mybatisdemo.web.beans.Href;
+import su90.mybatisdemo.web.beans.JobBean;
 import su90.mybatisdemo.web.endpoints.DepartmentsEndpoints;
 import su90.mybatisdemo.web.endpoints.EmployeesEndpoints;
 import su90.mybatisdemo.web.endpoints.JobsEndpoints;
@@ -194,12 +195,13 @@ public class Employee implements BaseDomain<Long,EmployeeBean> ,Serializable{
 
     @Override
     public EmployeeBean getWebBean() {
-        Href jobHref = null;
+        JobBean jobBean = null;
         Href managerHref = null;
         Href departmentHref = null;
         if (getJob()!=null){
-            jobHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
-                    JobsEndpoints.class).getOne(getJob().getId()));
+//            jobBean = UriUtils.generateHref(MvcUriComponentsBuilder.on(
+//                    JobsEndpoints.class).getOne(getJob().getId()));
+            jobBean=getJob().getWebBean();
         }
         if (getManager()!=null){
             managerHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
@@ -209,6 +211,6 @@ public class Employee implements BaseDomain<Long,EmployeeBean> ,Serializable{
             departmentHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
                     DepartmentsEndpoints.class).getOne(getDepartment().getId()));
         }
-        return new EmployeeBean(id, fname, lname, email, phone, hiredate, jobHref, salary, comm, managerHref, departmentHref);
+        return new EmployeeBean(id, fname, lname, email, phone, hiredate, jobBean, salary, comm, managerHref, departmentHref);
     }
 }
