@@ -125,7 +125,7 @@ public class EmployeesMapperTest extends AbstractTestNGSpringContextTests{
         assertTrue(result>0);
     }
     
-    @Test(groups = {"insert"})
+    @Test(groups = {"insert"},enabled = false)
     public void testInsert(){
         Employee employee = new Employee(
                 "WENTAO", "LI", "wl256@njit.edu", "8625761649", 
@@ -144,7 +144,7 @@ public class EmployeesMapperTest extends AbstractTestNGSpringContextTests{
         assertEquals(result.get(0).getFname(), "WENTAO");
     }
     
-    @Test(groups = {"update"},dependsOnGroups = {"insert"})
+    @Test(groups = {"update"},dependsOnGroups = {"insert"},enabled = false)
     public void testUpdate(){
         Employee search = new Employee();
         search.setEmail("wl256@njit.edu");
@@ -160,7 +160,7 @@ public class EmployeesMapperTest extends AbstractTestNGSpringContextTests{
         assertEquals(result.get(0).getLname(), "Leigh");
     }
     
-    @Test(groups = {"delete"},dependsOnGroups = {"update","insert"})
+    @Test(groups = {"delete"},dependsOnGroups = {"update","insert"},enabled = false)
     public void testDelete(){
         Employee search = new Employee();
         search.setEmail("wl256@njit.edu");

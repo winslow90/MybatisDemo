@@ -115,7 +115,7 @@ public class CountriesMapperTest extends AbstractTestNGSpringContextTests{
     }
     
     
-    @Test(groups = {"insert"})
+    @Test(groups = {"insert"},enabled = false)
     public void testInsertOne(){
         Region asia = regionsMapper.findByName("asia").get(0);
         Country korean = new Country("KR", "South Korea", asia);
@@ -145,7 +145,7 @@ public class CountriesMapperTest extends AbstractTestNGSpringContextTests{
         countriesMapper.insertOne(korean);
     }
     
-    @Test(groups = {"update"}, dependsOnGroups = {"insert"})
+    @Test(groups = {"update"}, dependsOnGroups = {"insert"},enabled = false)
     public void testUpdateOne(){
         Country korean = countriesMapper.findById("KR");
         korean.setName("Republic of Korea");
@@ -153,7 +153,7 @@ public class CountriesMapperTest extends AbstractTestNGSpringContextTests{
         assertEquals(countriesMapper.findById("KR").getName(), "Republic of Korea");        
     }
     
-    @Test(groups = {"delete"}, dependsOnGroups = {"insert","update"})
+    @Test(groups = {"delete"}, dependsOnGroups = {"insert","update"},enabled = false)
     public void testDelete(){
         countriesMapper.deleteById("KR");
         assertNull(countriesMapper.findById("KR"));

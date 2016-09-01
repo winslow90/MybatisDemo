@@ -92,7 +92,7 @@ public class DepartmentsMapperTest extends AbstractTestNGSpringContextTests {
         assertTrue(result>=0);
     }
     
-    @Test(groups = {"insert"})
+    @Test(groups = {"insert"},enabled = false)
     public void testInsert(){
         Employee manager = employeesMapper.findById(166L);
         Location location =  locationsMapper.findById(1600L);
@@ -107,7 +107,7 @@ public class DepartmentsMapperTest extends AbstractTestNGSpringContextTests {
         assertNotNull(departmentsMapper.findByRawProperties(search).get(0));
     }
     
-    @Test(groups = {"update"}, dependsOnGroups = {"insert"})
+    @Test(groups = {"update"}, dependsOnGroups = {"insert"},enabled = false)
     public void testUpdate(){
         Employee manager = employeesMapper.findById(167L);
         
@@ -124,7 +124,7 @@ public class DepartmentsMapperTest extends AbstractTestNGSpringContextTests {
         assertEquals(newdept.getManager().getId(), new Long(167L));
     }
     
-    @Test(groups = {"delete"}, dependsOnGroups = {"update","insert"})
+    @Test(groups = {"delete"}, dependsOnGroups = {"update","insert"},enabled = false)
     public void testDelete(){
         Department search= new Department();
         search.setName("dummy dept");

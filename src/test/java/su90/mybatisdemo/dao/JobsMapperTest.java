@@ -84,14 +84,14 @@ public class JobsMapperTest extends AbstractTestNGSpringContextTests{
         assertTrue(result>0);
     }
     
-    @Test(groups = {"insert"})
+    @Test(groups = {"insert"},enabled = false)
     public void testInsert(){
         Job tobeinserted = new Job("DUMMY", "Dummy Job Titile", 0L, 0L);
         jobsMapper.insertOne(tobeinserted);
         assertNotNull(jobsMapper.findById("DUMMY"));
     }
     
-    @Test(groups = {"update"}, dependsOnGroups = {"insert"})
+    @Test(groups = {"update"}, dependsOnGroups = {"insert"},enabled = false)
     public void testUpdate(){
         Job tobeupdated = jobsMapper.findById("DUMMY");
         tobeupdated.setTitle("Goddamn Dummy Job Titile");
@@ -99,7 +99,7 @@ public class JobsMapperTest extends AbstractTestNGSpringContextTests{
         assertEquals(jobsMapper.findById("DUMMY").getTitle(), "Goddamn Dummy Job Titile");
     }
     
-    @Test(groups = {"delete"}, dependsOnGroups = {"update","insert"})
+    @Test(groups = {"delete"}, dependsOnGroups = {"update","insert"},enabled = false)
     public void testDelete(){
         jobsMapper.deleteById("DUMMY");
         assertNull(jobsMapper.findById("DUMMY"));

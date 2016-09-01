@@ -96,7 +96,7 @@ public class RegionsMapperTest extends AbstractTestNGSpringContextTests{
 //        testDeletebyRegionId();
 //    }
     
-    @Test(groups = {"insert"})
+    @Test(groups = {"insert"},enabled = false)
     @Transactional
     public void testInsertOneRegions(){
         Region newregion = new Region(Long.MIN_VALUE, "Pacific");
@@ -109,7 +109,7 @@ public class RegionsMapperTest extends AbstractTestNGSpringContextTests{
         assertEquals(result.get(0).getName(), "Pacific");
     }
     
-    @Test(groups = {"insert"})
+    @Test(groups = {"insert"},enabled = false)
     @Transactional
     public void testInsertAnotherRegions(){
         Region newregion = new Region(Long.MIN_VALUE, "Artic");
@@ -122,7 +122,7 @@ public class RegionsMapperTest extends AbstractTestNGSpringContextTests{
         assertEquals(result.get(0).getName(), "Artic");
     }
     
-    @Test(groups = {"update"},dependsOnGroups = {"insert"})
+    @Test(groups = {"update"},dependsOnGroups = {"insert"},enabled = false)
     @Transactional
     public void testUpdateOneRegion(){
         Region pacificregion = regionsMapper.findByName("Pacific").get(0);
@@ -130,7 +130,7 @@ public class RegionsMapperTest extends AbstractTestNGSpringContextTests{
         regionsMapper.updateOne(pacificregion);
     }
     
-    @Test(groups = {"update"},dependsOnGroups = {"insert"}, dependsOnMethods = {"testUpdateOneRegion"})
+    @Test(groups = {"update"},dependsOnGroups = {"insert"}, dependsOnMethods = {"testUpdateOneRegion"},enabled = false)
     @Transactional
     public void testUpdateOneRegionwithEmpty(){
         Region pacificregion = regionsMapper.findByName("Pacific01").get(0);
@@ -138,7 +138,7 @@ public class RegionsMapperTest extends AbstractTestNGSpringContextTests{
         regionsMapper.updateOne(pacificregion);
     }
     
-    @Test(groups = {"update"},dependsOnGroups = {"insert"}, dependsOnMethods = {"testUpdateOneRegion"})
+    @Test(groups = {"update"},dependsOnGroups = {"insert"}, dependsOnMethods = {"testUpdateOneRegion"},enabled = false)
     @Transactional
     public void testUpdateOneRegionwithNull(){
         Region pacificregion = regionsMapper.findByName("Pacific01").get(0);
@@ -146,7 +146,7 @@ public class RegionsMapperTest extends AbstractTestNGSpringContextTests{
         regionsMapper.updateOne(pacificregion);
     }
     
-    @Test(groups = {"delete"},dependsOnGroups = {"update","insert"} )
+    @Test(groups = {"delete"},dependsOnGroups = {"update","insert"} ,enabled = false)
     @Transactional
     public void testDeletebyId(){
         Region tobedeletedregion = regionsMapper.findByName("Pacific01").get(0);
@@ -155,7 +155,7 @@ public class RegionsMapperTest extends AbstractTestNGSpringContextTests{
     }
     
     
-    @Test(groups = {"delete"},dependsOnGroups = {"update","insert"})
+    @Test(groups = {"delete"},dependsOnGroups = {"update","insert"},enabled = false)
     @Transactional
     public void testDeletebyRegionId(){
         Region tobedeletedregion = regionsMapper.findByName("artic").get(0);

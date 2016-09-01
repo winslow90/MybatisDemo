@@ -110,7 +110,7 @@ public class LocationsMapperTest extends AbstractTestNGSpringContextTests{
         assertTrue(count>=0);
     }
     
-    @Test(groups = {"insert"})
+    @Test(groups = {"insert"},enabled = false)
     public void testInsertOne(){
         Country country = countryMapper.findById("US");
         Location location = new Location("718 William St", "07029", "Harrison", "NJ", country);
@@ -121,7 +121,7 @@ public class LocationsMapperTest extends AbstractTestNGSpringContextTests{
         assertTrue(result.size()>0);
     }
     
-    @Test(groups = {"updates"} , dependsOnGroups = {"insert"})
+    @Test(groups = {"updates"} , dependsOnGroups = {"insert"},enabled = false)
     public void testUpdateOne(){
         Location search = new Location();
         search.setPostal_code("07029");
@@ -134,7 +134,7 @@ public class LocationsMapperTest extends AbstractTestNGSpringContextTests{
         assertEquals(updated.getCity(), "Kearny");
     }
     
-    @Test(groups = {"delete"}, dependsOnGroups = {"updates","insert"})
+    @Test(groups = {"delete"}, dependsOnGroups = {"updates","insert"},enabled = false)
     public void testDelete(){
         Location search = new Location();
         search.setPostal_code("07029");
