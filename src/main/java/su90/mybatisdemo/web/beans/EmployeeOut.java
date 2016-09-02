@@ -5,12 +5,15 @@
  */
 package su90.mybatisdemo.web.beans;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.sql.Date;
 
 /**
  *
  * @author superman90
  */
+@JsonPropertyOrder(value = {"id", "fname", "lname", "email", "phone", 
+    "hiredate", "job","salary","comm","manager","department"})
 public class EmployeeOut {
     public Long id;
     public String fname;

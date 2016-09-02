@@ -6,6 +6,7 @@
 package su90.mybatisdemo.bo;
 
 import su90.mybatisdemo.bo.base.BaseService;
+import su90.mybatisdemo.bo.ex.BeanAbsent;
 import su90.mybatisdemo.dao.base.BaseDomain;
 import su90.mybatisdemo.dao.domain.Employee;
 import su90.mybatisdemo.dao.mapper.EmployeesMapper;
@@ -17,4 +18,6 @@ import su90.mybatisdemo.web.beans.EmployeeOut;
  */
 public interface EmployeesService extends BaseService<Employee, Long, EmployeeOut, EmployeesMapper.EmployeeQuery>{
     public boolean hasEntityWithEmail(String email);    
+    @Override
+    public void deleteEntryById(Long id) throws BeanAbsent;
 }
