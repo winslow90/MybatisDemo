@@ -11,7 +11,7 @@ import java.sql.Date;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import su90.mybatisdemo.dao.base.BaseDomain;
 import su90.mybatisdemo.utils.UriUtils;
-import su90.mybatisdemo.web.beans.EmployeeBean;
+import su90.mybatisdemo.web.beans.EmployeeOut;
 import su90.mybatisdemo.web.beans.Href;
 import su90.mybatisdemo.web.beans.JobBean;
 import su90.mybatisdemo.web.endpoints.DepartmentsEndpoints;
@@ -22,7 +22,7 @@ import su90.mybatisdemo.web.endpoints.JobsEndpoints;
  *
  * @author superman90
  */
-public class Employee implements BaseDomain<Long,EmployeeBean> ,Serializable{
+public class Employee implements BaseDomain<Long,EmployeeOut> ,Serializable{
 
     public Long id;
     public String fname;
@@ -194,7 +194,7 @@ public class Employee implements BaseDomain<Long,EmployeeBean> ,Serializable{
     }
 
     @Override
-    public EmployeeBean getWebBean() {
+    public EmployeeOut getWebBean() {
         JobBean jobBean = null;
         Href managerHref = null;
         Href departmentHref = null;
@@ -211,6 +211,6 @@ public class Employee implements BaseDomain<Long,EmployeeBean> ,Serializable{
             departmentHref = UriUtils.generateHref(MvcUriComponentsBuilder.on(
                     DepartmentsEndpoints.class).getOne(getDepartment().getId()));
         }
-        return new EmployeeBean(id, fname, lname, email, phone, hiredate, jobBean, salary, comm, managerHref, departmentHref);
+        return new EmployeeOut(id, fname, lname, email, phone, hiredate, jobBean, salary, comm, managerHref, departmentHref);
     }
 }

@@ -8,11 +8,12 @@ package su90.mybatisdemo.bo.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import su90.mybatisdemo.bo.CountriesService;
 import su90.mybatisdemo.bo.base.BaseServiceImpl;
 import su90.mybatisdemo.dao.base.BaseMapper;
-import su90.mybatisdemo.dao.domain.Job_History;
-import su90.mybatisdemo.dao.mapper.Job_HistoryMapper;
-import su90.mybatisdemo.web.beans.Job_HistoryBean;
+import su90.mybatisdemo.dao.domain.Country;
+import su90.mybatisdemo.dao.mapper.CountriesMapper;
+import su90.mybatisdemo.web.beans.CountryBean;
 
 /**
  *
@@ -20,14 +21,17 @@ import su90.mybatisdemo.web.beans.Job_HistoryBean;
  */
 @Service
 @Transactional
-public class Job_HistoryService extends BaseServiceImpl<Job_History, Job_History.Key, Job_HistoryBean, Job_History>{
+public class CountriesServiceImpl 
+        extends BaseServiceImpl<Country, String, CountryBean, Country>
+        implements CountriesService
+{
 
     @Autowired
-    Job_HistoryMapper job_HistoryMapper;
+    CountriesMapper countriesMapper;
     
     @Override
-    public BaseMapper<Job_History, Job_History.Key, Job_HistoryBean, Job_History> getBaseMapper() {
-        return job_HistoryMapper;
+    public BaseMapper<Country, String, CountryBean, Country> getBaseMapper() {
+        return countriesMapper;
     }
     
 }

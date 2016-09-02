@@ -72,6 +72,12 @@ public class EmployeesMapperTest extends AbstractTestNGSpringContextTests{
     }
     
     @Test(groups={"find"})
+    public void testFindById02(){
+        Employee nobody = employeesMapper.findById(90L);
+        assertNull(nobody);
+    }
+    
+    @Test(groups={"find"})
     public void testFindByRawProperties01(){
         EmployeesMapper.EmployeeQuery sampleEQ = new EmployeesMapper
                 .EmployeeQuery(employeesMapper.findById(148L));
@@ -126,6 +132,7 @@ public class EmployeesMapperTest extends AbstractTestNGSpringContextTests{
     }
     
     @Test(groups = {"insert"},enabled = false)
+//    @Test(groups = {"insert"})
     public void testInsert(){
         Employee employee = new Employee(
                 "WENTAO", "LI", "wl256@njit.edu", "8625761649", 

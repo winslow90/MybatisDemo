@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import su90.mybatisdemo.bo.impl.RegionsService;
+import su90.mybatisdemo.bo.impl.RegionsServiceImpl;
 
 /**
  *
@@ -22,7 +22,7 @@ public class RegionsServiceTest {
     @Autowired
     RegionsService regionsService;
 
-    public void setRegionsService(RegionsService regionsService) {
+    public void setRegionsService(RegionsServiceImpl regionsService) {
         this.regionsService = regionsService;
     }
     

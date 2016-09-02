@@ -19,20 +19,28 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+import org.springframework.transaction.config.JtaTransactionManagerFactoryBean;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
 /**
  *
  * @author superman90
  */
 @Configuration
+@EnableTransactionManagement
 //@MapperScan(basePackages = "su90.mybatisdemo.dao.mapper")
 @ConfigurationProperties("oracle.datasource")
-public class DaoConfig {
+public class DaoConfig{
     
     @NotNull
     private String driver_class_name;
@@ -78,36 +86,43 @@ public class DaoConfig {
 //    @Bean
 //    TransactionFactory transactionFactory(){
 //        return new JdbcTransactionFactory();
+//    }    
+    @Bean
+     public PlatformTransactionManager txManager() {
+         return new DataSourceTransactionManager(dataSource());
+     }
+     
+     @Bean
+    public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource());
+        return sessionFactory;
+    }
+    
+//    @Bean
+//    Environment mybatisEnvironment(){
+//        return new Environment("development", new ManagedTransactionFactory(),dataSource());
 //    }
-    @Bean
-    public DataSourceTransactionManager transactionManager(){
-        return new DataSourceTransactionManager(dataSource());
-    }
-    
-    @Bean
-    Environment mybatisEnvironment(){
-        return new Environment("development", new ManagedTransactionFactory(),dataSource());
-    }
-    
-    @Bean(name="ibatis_configuration")
-    org.apache.ibatis.session.Configuration mybatisConfiguration(){
-        org.apache.ibatis.session.Configuration conf = new org.apache.ibatis.session.Configuration(mybatisEnvironment());
-        conf.addMappers("su90.mybatisdemo.dao.mappers");
-//        conf.getLazyLoadTriggerMethods().clear();
-//        conf.setCacheEnabled(true);
-//        conf.setLazyLoadingEnabled(true);
-//        conf.setAggressiveLazyLoading(true);
-//        conf.setLazyLoadTriggerMethods(new HashSet<>(Arrays.asList(new String[] { "equals", "clone", "hashCode", "toString" })));
-//        conf.setUseColumnLabel(true);
-//        conf.setMultipleResultSetsEnabled(true);
-        return conf;
-    }
-    
-    @Bean
-    SqlSessionFactory sqlSessionFactory(){
-        SqlSessionFactory result = new SqlSessionFactoryBuilder().build(mybatisConfiguration());
-        return result;
-    }
+//    
+//    @Bean(name="ibatis_configuration")
+//    org.apache.ibatis.session.Configuration mybatisConfiguration(){
+//        org.apache.ibatis.session.Configuration conf = new org.apache.ibatis.session.Configuration(mybatisEnvironment());
+//        conf.addMappers("su90.mybatisdemo.dao.mappers");
+////        conf.getLazyLoadTriggerMethods().clear();
+////        conf.setCacheEnabled(true);
+////        conf.setLazyLoadingEnabled(true);
+////        conf.setAggressiveLazyLoading(true);
+////        conf.setLazyLoadTriggerMethods(new HashSet<>(Arrays.asList(new String[] { "equals", "clone", "hashCode", "toString" })));
+////        conf.setUseColumnLabel(true);
+////        conf.setMultipleResultSetsEnabled(true);
+//        return conf;
+//    }
+//    
+//    @Bean
+//    SqlSessionFactory sqlSessionFactory(){
+//        SqlSessionFactory result = new SqlSessionFactoryBuilder().build(mybatisConfiguration());
+//        return result;
+//    }
     
     //never froget to close the session
 //    SqlSession session = sqlSessionFactory.openSession();

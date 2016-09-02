@@ -42,18 +42,20 @@ public abstract class BaseServiceImpl<T extends BaseDomain<K,W>, K,W, Q> impleme
     }
 
     @Override
-    public void saveEntry(T t) {
+    public K saveEntry(T t) {
         List<T> potentialExisted = getBaseMapper().findByRawType(t);
         
-        if (potentialExisted.size()==1){
-            if (potentialExisted.get(0)==null){
+        if (potentialExisted.size()<=1){
+            if (potentialExisted.isEmpty()){
                 getBaseMapper().insertOne(t);
             }else{
                 t.setKey(potentialExisted.get(0).getKey());
                 getBaseMapper().updateOne(t);
             }
+            return t.getKey();
         }else{
-            throw new UnsupportedOperationException("//TODO unfinished, need to define custome expception");
+//            throw new UnsupportedOperationException("//TODO unfinished, need to define custome expception");
+            return null;
         }
         
     }
@@ -90,7 +92,8 @@ public abstract class BaseServiceImpl<T extends BaseDomain<K,W>, K,W, Q> impleme
         List<W> result = new ArrayList<>();
         List<T> oriresult = getEntriesByBean(querybean);
         for (T bean: oriresult){
-            result.add(bean.getWebBean());
+            if (bean!=null)
+                result.add(bean.getWebBean());
         }
         return result;
     }
@@ -98,13 +101,17 @@ public abstract class BaseServiceImpl<T extends BaseDomain<K,W>, K,W, Q> impleme
     @Override
     public List<W> getWebBeansByIds(K[] ids){
         List<W> result = new ArrayList<>();
-        getEntriesByIds(ids).stream().forEach(bean->{result.add(bean.getWebBean());});
+        getEntriesByIds(ids).stream().forEach(bean->{if (bean!=null) result.add(bean.getWebBean());});
         return result;        
     }
 
     @Override
     public W getWebBeanById(K id){
-        return getEntryById(id).getWebBean();
+        T tempresult = getEntryById(id);
+        if (tempresult==null){
+            return null;
+        }
+        return tempresult.getWebBean();
     }
     
     
@@ -112,7 +119,7 @@ public abstract class BaseServiceImpl<T extends BaseDomain<K,W>, K,W, Q> impleme
     @Override
     public List<W> getWebBeans(){
         List<W> result = new ArrayList<>();
-        getEntries().stream().forEach(bean->{result.add(bean.getWebBean());});
+        getEntries().stream().forEach(bean->{if (bean!=null) result.add(bean.getWebBean());});
         return result; 
     }
     

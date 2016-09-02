@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import su90.mybatisdemo.bo.impl.CountriesService;
+import su90.mybatisdemo.bo.CountriesService;
+import su90.mybatisdemo.bo.impl.CountriesServiceImpl;
 import su90.mybatisdemo.web.beans.CountryBean;
 
 /**

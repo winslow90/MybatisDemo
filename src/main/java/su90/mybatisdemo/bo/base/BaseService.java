@@ -19,7 +19,7 @@ public interface BaseService<T extends BaseDomain<K,W>,K,W,Q> {
         public List<W> getWebBeansByIds(K[] ids);
     public List<T> getEntriesByBean(Q bean);
         public List<W> getWebBeansByBean(Q bean);
-    public void saveEntry(T t);
+    public K saveEntry(T t);
     public void updateEntry(T t);
     public T getEntryById(K id);
         public W getWebBeanById(K id);

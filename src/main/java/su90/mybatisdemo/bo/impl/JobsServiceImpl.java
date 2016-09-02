@@ -8,11 +8,12 @@ package su90.mybatisdemo.bo.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import su90.mybatisdemo.bo.JobsService;
 import su90.mybatisdemo.bo.base.BaseServiceImpl;
 import su90.mybatisdemo.dao.base.BaseMapper;
-import su90.mybatisdemo.dao.domain.Location;
-import su90.mybatisdemo.dao.mapper.LocationsMapper;
-import su90.mybatisdemo.web.beans.LocationBean;
+import su90.mybatisdemo.dao.domain.Job;
+import su90.mybatisdemo.dao.mapper.JobsMapper;
+import su90.mybatisdemo.web.beans.JobBean;
 
 /**
  *
@@ -20,14 +21,18 @@ import su90.mybatisdemo.web.beans.LocationBean;
  */
 @Service
 @Transactional
-public class LocationsService extends BaseServiceImpl<Location, Long, LocationBean, Location>{
+public class JobsServiceImpl 
+        extends BaseServiceImpl<Job, String, JobBean, Job>
+        implements JobsService
+{
 
     @Autowired
-    LocationsMapper locationsMapper;
+    JobsMapper jobsMapper;
     
     @Override
-    public BaseMapper<Location, Long, LocationBean, Location> getBaseMapper() {
-        return locationsMapper;
+    public BaseMapper<Job, String, JobBean, Job> getBaseMapper() {
+        return jobsMapper;
     }
+    
     
 }

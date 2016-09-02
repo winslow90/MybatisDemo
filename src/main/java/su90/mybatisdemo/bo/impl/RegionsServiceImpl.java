@@ -8,11 +8,12 @@ package su90.mybatisdemo.bo.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import su90.mybatisdemo.bo.RegionsService;
 import su90.mybatisdemo.bo.base.BaseServiceImpl;
 import su90.mybatisdemo.dao.base.BaseMapper;
-import su90.mybatisdemo.dao.domain.Country;
-import su90.mybatisdemo.dao.mapper.CountriesMapper;
-import su90.mybatisdemo.web.beans.CountryBean;
+import su90.mybatisdemo.dao.domain.Region;
+import su90.mybatisdemo.dao.mapper.RegionsMapper;
+import su90.mybatisdemo.web.beans.RegionBean;
 
 /**
  *
@@ -20,14 +21,17 @@ import su90.mybatisdemo.web.beans.CountryBean;
  */
 @Service
 @Transactional
-public class CountriesService extends BaseServiceImpl<Country, String, CountryBean, Country>{
-
-    @Autowired
-    CountriesMapper countriesMapper;
+public class RegionsServiceImpl 
+        extends BaseServiceImpl<Region, Long,RegionBean, Region>
+        implements RegionsService
+{
     
+    @Autowired
+    RegionsMapper regionsMapper;
+
     @Override
-    public BaseMapper<Country, String, CountryBean, Country> getBaseMapper() {
-        return countriesMapper;
+    public BaseMapper<Region, Long,RegionBean, Region> getBaseMapper() {
+        return regionsMapper;
     }
     
 }

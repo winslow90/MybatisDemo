@@ -8,11 +8,12 @@ package su90.mybatisdemo.bo.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import su90.mybatisdemo.bo.Job_HistoryService;
 import su90.mybatisdemo.bo.base.BaseServiceImpl;
 import su90.mybatisdemo.dao.base.BaseMapper;
-import su90.mybatisdemo.dao.domain.Department;
-import su90.mybatisdemo.dao.mapper.DepartmentsMapper;
-import su90.mybatisdemo.web.beans.DepartmentBean;
+import su90.mybatisdemo.dao.domain.Job_History;
+import su90.mybatisdemo.dao.mapper.Job_HistoryMapper;
+import su90.mybatisdemo.web.beans.Job_HistoryBean;
 
 /**
  *
@@ -20,14 +21,17 @@ import su90.mybatisdemo.web.beans.DepartmentBean;
  */
 @Service
 @Transactional
-public class DepartmentsService extends BaseServiceImpl<Department, Long, DepartmentBean, Department>{
+public class Job_HistoryServiceImpl 
+        extends BaseServiceImpl<Job_History, Job_History.Key, Job_HistoryBean, Job_History>
+        implements Job_HistoryService
+{
 
     @Autowired
-    DepartmentsMapper departmentsMapper;
+    Job_HistoryMapper job_HistoryMapper;
     
     @Override
-    public BaseMapper<Department, Long, DepartmentBean, Department> getBaseMapper() {
-        return departmentsMapper;
-    }    
+    public BaseMapper<Job_History, Job_History.Key, Job_HistoryBean, Job_History> getBaseMapper() {
+        return job_HistoryMapper;
+    }
     
 }

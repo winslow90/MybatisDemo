@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.mapping.FetchType;
@@ -25,14 +26,14 @@ import su90.mybatisdemo.dao.base.BaseMapper;
 import su90.mybatisdemo.dao.domain.Department;
 import su90.mybatisdemo.dao.ex.InvalidBeanException;
 import su90.mybatisdemo.dao.ex.KeyAbsentException;
-import su90.mybatisdemo.web.beans.EmployeeBean;
+import su90.mybatisdemo.web.beans.EmployeeOut;
 
 /**
  *
  * @author superman90
  */
 @Mapper
-public interface EmployeesMapper extends BaseMapper<Employee, Long,EmployeeBean, EmployeesMapper.EmployeeQuery> {
+public interface EmployeesMapper extends BaseMapper<Employee, Long,EmployeeOut, EmployeesMapper.EmployeeQuery> {
     
     static public class SqlBuilderHelper{
         public String buildFindByRawProperties(EmployeeQuery eq){
@@ -153,7 +154,7 @@ public interface EmployeesMapper extends BaseMapper<Employee, Long,EmployeeBean,
             BEGIN();
             if (employee.isValidated()){
                 INSERT_INTO("employees");
-                VALUES("employee_id", "employees_seq.nextval");                
+                VALUES("employee_id", "#{id}");                
 //                (fname!=null&&!fname.isEmpty())||
                 if (employee.getFname()!=null&&!employee.getFname().isEmpty()){
                     VALUES("first_name", "#{fname}");
@@ -442,6 +443,7 @@ public interface EmployeesMapper extends BaseMapper<Employee, Long,EmployeeBean,
     public Long count();
 
     @InsertProvider(type = SqlBuilderHelper.class, method = "buildInsertOne")
+    @SelectKey(statement = "select employees_seq.nextval from dual",keyProperty ="id",resultType = Long.class,before = true)
     @Override
     public void insertOne(Employee bean);
     

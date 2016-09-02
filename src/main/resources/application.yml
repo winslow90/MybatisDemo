@@ -1,5 +1,8 @@
 server:
     port: 8080
+#spring:
+#    aop:
+#        proxy-target-class: true
 oracle:
     datasource:
         driver_class_name: oracle.jdbc.OracleDriver

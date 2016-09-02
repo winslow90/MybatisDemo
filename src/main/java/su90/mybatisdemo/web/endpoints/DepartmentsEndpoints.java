@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import su90.mybatisdemo.bo.impl.DepartmentsService;
+import su90.mybatisdemo.bo.DepartmentsService;
+import su90.mybatisdemo.bo.impl.DepartmentsServiceImpl;
 import su90.mybatisdemo.web.beans.DepartmentBean;
 
 /**
